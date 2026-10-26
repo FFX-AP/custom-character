@@ -1,14 +1,13 @@
 ﻿// SPDX-License-Identifier: MIT
 
-using Fahrenheit.Mods.CustomCharacter.GUI;
 using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Fahrenheit.Mods.CustomCharacter.GUI;
 
-using FhGCall = Fahrenheit.FhCall;
 using FhXCall = Fahrenheit.FFX.FhCall;
 
 namespace Fahrenheit.Mods.CustomCharacter;
@@ -21,60 +20,45 @@ public unsafe class CustomCharacterModule : FhModule {
      */
     const string game = "FFX.exe";
 
-    public static FhMethodHandle<FhXCall.d_TkMsGetRomItem> MsGetRomItem
-        => new( new FhMethodLocation("FFX.exe", 0x390A40) );
+    public static FhCallHandle<FhXCall.d_TkMsGetRomItem> MsGetRomItem
+        => new( new FhCallLocation("FFX.exe", 0x3909F0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint d_MsGetSaveItemNum(uint item_id);
-    public static FhMethodHandle<d_MsGetSaveItemNum> MsGetSaveItemNum
-        => new( new FhMethodLocation("FFX.exe", 0x390500) ) ;
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint d_FUN_00a59710(nint param_1, FUN_00a59710_Struct* param_2);
-    private FhMethodHandle<d_FUN_00a59710> FUN_00a59710
-        => new( new FhMethodLocation("FFX.exe", 0x659710) );
+    public delegate uint d_FUN_00659710(nint param_1, FUN_00a59710_Struct* param_2);
+    private FhCallHandle<d_FUN_00659710> FUN_00659710
+        => new( new FhCallLocation("FFX.exe", 0x659710) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate uint d_FUN_00a59760(short param_1, nint param_2, FUN_00a59710_Struct* param_3);
-    private FhMethodHandle<d_FUN_00a59760> FUN_00a59760
-        => new( new FhMethodLocation("FFX.exe", 0x659760) );
+    private FhCallHandle<d_FUN_00a59760> FUN_00659760
+        => new( new FhCallLocation("FFX.exe", 0x659760) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate uint d_FUN_00a49440(SphereGridNode* node, FUN_00a59710_Struct* sphere);
-    private FhMethodHandle<d_FUN_00a49440> FUN_00a49440
-        => new( new FhMethodLocation("FFX.exe", 0x649440) );
+    public delegate uint d_FUN_00649440(SphereGridNode* node, FUN_00a59710_Struct* sphere);
+    private FhCallHandle<d_FUN_00649440> FUN_00649440
+        => new( new FhCallLocation("FFX.exe", 0x649440) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate byte d_MsGetSavePlyJoined(byte idx);
-    private FhMethodHandle<d_MsGetSavePlyJoined> MsGetSavePlyJoined
-        => new( new FhMethodLocation("FFX.exe", 0x385460) );
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a5a800();
-    private FhMethodHandle<d_FUN_00a5a800> FUN_00a5a800
-        => new( new FhMethodLocation("FFX.exe", 0x65a800) );
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_SndSepPlaySimple(uint param_1);
-    private FhMethodHandle<d_SndSepPlaySimple> SndSepPlaySimple
-        => new( new FhMethodLocation("FFX.exe", 0x486DE0) );
+    public delegate void d_FUN_0065a800();
+    private FhCallHandle<d_FUN_0065a800> FUN_0065a800
+        => new( new FhCallLocation("FFX.exe", 0x65a800) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_pppCreateHeap(nint param_1, nint param_2, int param_3);
-    private FhMethodHandle<d_pppCreateHeap> pppCreateHeap
-        => new( new FhMethodLocation("FFX.exe", 0x32C570) );
+    private FhCallHandle<d_pppCreateHeap> pppCreateHeap
+        => new( new FhCallLocation("FFX.exe", 0x32C480) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a5bad0(nint param_1, int param_2, float param_3, float param_4,
+    public delegate void d_FUN_0065bad0(nint param_1, int param_2, float param_3, float param_4,
             float param_5, float param_6, float param_7, float param_8, float param_9,
             float param_10, float param_11);
-    private FhMethodHandle<d_FUN_00a5bad0> FUN_00a5bad0
-        => new( new FhMethodLocation("FFX.exe", 0x65BAD0) );
+    private FhCallHandle<d_FUN_0065bad0> FUN_0065bad0
+        => new( new FhCallLocation("FFX.exe", 0x65BAD0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_FFXVu0InterVectorXYZ(Vector4* dest, Vector4* end, Vector4* start, float progress);
-    private FhMethodHandle<d_FFXVu0InterVectorXYZ> FFXVu0InterVectorXYZ
-        => new( new FhMethodLocation("FFX.exe", 0x22FF20) );
+    private FhCallHandle<d_FFXVu0InterVectorXYZ> FFXVu0InterVectorXYZ
+        => new( new FhCallLocation("FFX.exe", 0x22FD70) );
 
 
     [StructLayout(LayoutKind.Explicit, Pack = 1, Size = 0x2)]
@@ -119,92 +103,87 @@ public unsafe class CustomCharacterModule : FhModule {
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate SaveSphereGrid* d_MsGetSaveAbilityMap();
-    private FhMethodHandle<d_MsGetSaveAbilityMap> MsGetSaveAbilityMap
-        => new( new FhMethodLocation("FFX.exe", 0x385000) );
+    private FhCallHandle<d_MsGetSaveAbilityMap> MsGetSaveAbilityMap
+        => new( new FhCallLocation("FFX.exe", 0x384F40) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void* d_user_malloc(nint param_1);
-    private FhMethodHandle<d_user_malloc> user_malloc
-        => new( new FhMethodLocation("FFX.exe", 0x2871C0) );
+    private FhCallHandle<d_user_malloc> user_malloc
+        => new( new FhCallLocation("FFX.exe", 0x287020) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void* d_FUN_00642a80(int* param_1, float* param_2);
-    private FhMethodHandle<d_FUN_00642a80> FUN_00642a80
-        => new( new FhMethodLocation("FFX.exe", 0x242A80) );
+    public delegate void* d_FUN_002428d0(int* param_1, float* param_2);
+    private FhCallHandle<d_FUN_002428d0> FUN_002428d0
+        => new( new FhCallLocation("FFX.exe", 0x2428D0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_graphicDrawUIAbmapElement(graphicDrawUIAbmapElement_param1* param_1, byte* tex_name, uint param_3);
-    private FhMethodHandle<d_graphicDrawUIAbmapElement> graphicDrawUIAbmapElement
-        => new( new FhMethodLocation("FFX.exe", 0x23EAE0) );
+    private FhCallHandle<d_graphicDrawUIAbmapElement> graphicDrawUIAbmapElement
+        => new( new FhCallLocation("FFX.exe", 0x23E930) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void* d_FUN_008b70e0(nint param_1, int* param_2, int* param_3);
-    private FhMethodHandle<d_FUN_008b70e0> FUN_008b70e0
-        => new( new FhMethodLocation("FFX.exe", 0x4B70E0) );
+    public delegate void* d_FUN_004b7130(nint param_1, int* param_2, int* param_3);
+    private FhCallHandle<d_FUN_004b7130> FUN_004b7130
+        => new( new FhCallLocation("FFX.exe", 0x4B7130) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate nint d_FUN_008e8fb0(nint param_1, uint param_2, byte* text, int param_4, int param_5, byte param_6,
+    public delegate nint d_FUN_004e8fb0(nint param_1, uint param_2, byte* text, int param_4, int param_5, byte param_6,
             byte param_7, byte param_8, byte param_9, byte param_10, byte param_11, int param_12);
-    private FhMethodHandle<d_FUN_008e8fb0> FUN_008e8fb0
-        => new( new FhMethodLocation("FFX.exe", 0x4E8FB0) );
+    private FhCallHandle<d_FUN_004e8fb0> FUN_004e8fb0
+        => new( new FhCallLocation("FFX.exe", 0x4E8FB0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void* d_user_free(nint param_1);
-    private FhMethodHandle<d_user_free> user_free
-        => new( new FhMethodLocation("FFX.exe", 0x2FB990) );
+    private FhCallHandle<d_user_free> user_free
+        => new( new FhCallLocation("FFX.exe", 0x2FB8B0) );
 
 
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_cdc_FFXVu0MulMatrix(Matrix4x4* dest, Matrix4x4* l, Matrix4x4* r);
-    private FhMethodHandle<d_cdc_FFXVu0MulMatrix> cdc_FFXVu0MulMatrix
-        => new( new FhMethodLocation("FFX.exe", 0x305AA0) );
+    private FhCallHandle<d_cdc_FFXVu0MulMatrix> cdc_FFXVu0MulMatrix
+        => new( new FhCallLocation("FFX.exe", 0x3059B0) );
 
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int d_FUN_00a657c0(int param_1, temp_FUN_00a4c8d0_struct* param_2, int param_3, uint* param_4);
-    private FhMethodHandle<d_FUN_00a657c0> FUN_00a657c0
-        => new( new FhMethodLocation("FFX.exe", 0x6657C0) );
+    public delegate int d_FUN_006657c0(int param_1, temp_FUN_00a4c8d0_struct* param_2, int param_3, uint* param_4);
+    private FhCallHandle<d_FUN_006657c0> FUN_006657c0
+        => new( new FhCallLocation("FFX.exe", 0x6657C0) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate FhLangId d_TOGetFFXLang();
-    private FhMethodHandle<d_TOGetFFXLang> TOGetFFXLang
-        => new( new FhMethodLocation("FFX.exe", 0x4AC2A0) );
+    public delegate void d_FUN_006572e0();
+    private FhCallHandle<d_FUN_006572e0> FUN_006572e0
+        => new( new FhCallLocation("FFX.exe", 0x6572E0) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a572e0();
-    private FhMethodHandle<d_FUN_00a572e0> FUN_00a572e0
-        => new( new FhMethodLocation("FFX.exe", 0x6572E0) );
+    public delegate void d_FUN_00657620();
+    private FhCallHandle<d_FUN_00657620> FUN_00657620
+        => new( new FhCallLocation("FFX.exe", 0x657620) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a57620();
-    private FhMethodHandle<d_FUN_00a57620> FUN_00a57620
-        => new( new FhMethodLocation("FFX.exe", 0x657620) );
-
-    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a45570();
-    private FhMethodHandle<d_FUN_00a45570> FUN_00a45570
-        => new( new FhMethodLocation("FFX.exe", 0x645570) );
+    public delegate void d_FUN_00645570();
+    private FhCallHandle<d_FUN_00645570> FUN_00645570
+        => new( new FhCallLocation("FFX.exe", 0x645570) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate void d_TOMenuTransFacePlyTex();
-    private FhMethodHandle<d_TOMenuTransFacePlyTex> TOMenuTransFacePlyTex
-        => new( new FhMethodLocation("FFX.exe", 0x501100) );
+    private FhCallHandle<d_TOMenuTransFacePlyTex> TOMenuTransFacePlyTex
+        => new( new FhCallLocation("FFX.exe", 0x501100) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a57120();
-    private FhMethodHandle<d_FUN_00a57120> FUN_00a57120
-        => new( new FhMethodLocation("FFX.exe", 0x657120) );
+    public delegate void d_FUN_00657120();
+    private FhCallHandle<d_FUN_00657120> FUN_00657120
+        => new( new FhCallLocation("FFX.exe", 0x657120) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_pppInitEnv(nint param_1, int param_2, nint param_3, int param_4);
-    private FhMethodHandle<d_pppInitEnv> pppInitEnv
-        => new( new FhMethodLocation("FFX.exe", 0x316AB0) );
+    private FhCallHandle<d_pppInitEnv> pppInitEnv
+        => new( new FhCallLocation("FFX.exe", 0x3169D0) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate uint d_MsGetSaveConfigHiragana();
-    private FhMethodHandle<d_MsGetSaveConfigHiragana> MsGetSaveConfigHiragana
-        => new( new FhMethodLocation("FFX.exe", 0x3852B0) );
+    private FhCallHandle<d_MsGetSaveConfigHiragana> MsGetSaveConfigHiragana
+        => new( new FhCallLocation("FFX.exe", 0x3851F0) );
 
     public enum MenuTextFile {
         btl_txt = 0,
@@ -224,532 +203,517 @@ public unsafe class CustomCharacterModule : FhModule {
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate byte* d_MsMenuGetText(MenuTextFile file_id, int in_req_text_out_ref_data_end, uint get_second_text);
-    private FhMethodHandle<d_MsMenuGetText> MsMenuGetText
-        => new( new FhMethodLocation("FFX.exe", 0x38FD40) );
+    private FhCallHandle<d_MsMenuGetText> MsMenuGetText
+        => new( new FhCallLocation("FFX.exe", 0x38FCF0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a45fd0(int param_1, int param_2);
-    private FhMethodHandle<d_FUN_00a45fd0> FUN_00a45fd0
-        => new( new FhMethodLocation("FFX.exe", 0x645FD0) );
+    public delegate void d_FUN_00645fd0(int param_1, int param_2);
+    private FhCallHandle<d_FUN_00645fd0> FUN_00645fd0
+        => new( new FhCallLocation("FFX.exe", 0x645FD0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a459e0(int param_1, int param_2);
-    private FhMethodHandle<d_FUN_00a459e0> FUN_00a459e0
-        => new( new FhMethodLocation("FFX.exe", 0x6459E0) );
+    public delegate void d_FUN_006459e0(int param_1, int param_2);
+    private FhCallHandle<d_FUN_006459e0> FUN_006459e0
+        => new( new FhCallLocation("FFX.exe", 0x6459E0) );
 
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate void d_graphicAbmapCreate(void* param_1);
-    private FhMethodHandle<d_graphicAbmapCreate> graphicAbmapCreate
-        => new( new FhMethodLocation("FFX.exe", 0x239140) );
+    private FhCallHandle<d_graphicAbmapCreate> graphicAbmapCreate
+        => new( new FhCallLocation("FFX.exe", 0x238F90) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate void d_graphicDeActivateLoadingScreen();
-    private FhMethodHandle<d_graphicDeActivateLoadingScreen> graphicDeActivateLoadingScreen
-        => new( new FhMethodLocation("FFX.exe", 0x23DFF0) );
+    private FhCallHandle<d_graphicDeActivateLoadingScreen> graphicDeActivateLoadingScreen
+        => new( new FhCallLocation("FFX.exe", 0x23DE40) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_graphicSetFlipVsnc(uint param_1);
-    private FhMethodHandle<d_graphicSetFlipVsnc> graphicSetFlipVsnc
-        => new( new FhMethodLocation("FFX.exe", 0x243290) );
+    private FhCallHandle<d_graphicSetFlipVsnc> graphicSetFlipVsnc
+        => new( new FhCallLocation("FFX.exe", 0x2430E0) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a59950();
-    private FhMethodHandle<d_FUN_00a59950> FUN_00a59950
-        => new( new FhMethodLocation("FFX.exe", 0x659950) );
+    public delegate void d_FUN_00659950();
+    private FhCallHandle<d_FUN_00659950> FUN_00659950
+        => new( new FhCallLocation("FFX.exe", 0x659950) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a5b930();
-    private FhMethodHandle<d_FUN_00a5b930> FUN_00a5b930
-        => new( new FhMethodLocation("FFX.exe", 0x65B930) );
+    public delegate void d_FUN_0065b930();
+    private FhCallHandle<d_FUN_0065b930> FUN_0065b930
+        => new( new FhCallLocation("FFX.exe", 0x65B930) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int d_FUN_00786fb0(uint param_1, int param_2);
-    private FhMethodHandle<d_FUN_00786fb0> FUN_00786fb0
-        => new( new FhMethodLocation("FFX.exe", 0x386FB0) );
+    public delegate int d_FUN_00386ef0(uint param_1, int param_2);
+    private FhCallHandle<d_FUN_00386ef0> FUN_00386ef0
+        => new( new FhCallLocation("FFX.exe", 0x386EF0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a48d70(int node_to_select, float param_2);
-    private FhMethodHandle<d_FUN_00a48d70> FUN_00a48d70
-        => new( new FhMethodLocation("FFX.exe", 0x648D70) );
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate byte* d_TOGetSaveChrName(uint chr_id);
-    private FhMethodHandle<d_TOGetSaveChrName> TOGetSaveChrName
-        => new( new FhMethodLocation("FFX.exe", 0x4AC800) );
+    public delegate void d_FUN_00648d70(int node_to_select, float param_2);
+    private FhCallHandle<d_FUN_00648d70> FUN_00648d70
+        => new( new FhCallLocation("FFX.exe", 0x648D70) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int d_TOGetEasyMesWFontLInterModeChrName(byte* name, int param_2);
-    private FhMethodHandle<d_TOGetEasyMesWFontLInterModeChrName> TOGetEasyMesWFontLInterModeChrName
-        => new( new FhMethodLocation("FFX.exe", 0x4B7070) );
+    private FhCallHandle<d_TOGetEasyMesWFontLInterModeChrName> TOGetEasyMesWFontLInterModeChrName
+        => new( new FhCallLocation("FFX.exe", 0x4B70C0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate byte* d_FUN_008b7bb0(byte* text, byte param_2, float* param_3, int param_4);
-    private FhMethodHandle<d_FUN_008b7bb0> FUN_008b7bb0
-        => new( new FhMethodLocation("FFX.exe", 0x4B7BB0) );
+    public delegate byte* d_FUN_004b7c00(byte* text, byte param_2, float* param_3, int param_4);
+    private FhCallHandle<d_FUN_004b7c00> FUN_004b7c00
+        => new( new FhCallLocation("FFX.exe", 0x4B7C00) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a47c60(SphereGridChrInfo* chr_info);
-    private FhMethodHandle<d_FUN_00a47c60> FUN_00a47c60
-        => new( new FhMethodLocation("FFX.exe", 0x647C60) );
+    public delegate void d_FUN_00647c60(SphereGridChrInfo* chr_info);
+    private FhCallHandle<d_FUN_00647c60> FUN_00647c60
+        => new( new FhCallLocation("FFX.exe", 0x647C60) );
 
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_008aaec0();
-    private FhMethodHandle<d_FUN_008aaec0> FUN_008aaec0
-        => new( new FhMethodLocation("FFX.exe", 0x4AAEC0) );
+    public delegate void d_FUN_004aaf10();
+    private FhCallHandle<d_FUN_004aaf10> FUN_004aaf10
+        => new( new FhCallLocation("FFX.exe", 0x4AAF10) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_008aaf50();
-    private FhMethodHandle<d_FUN_008aaf50> FUN_008aaf50
-        => new( new FhMethodLocation("FFX.exe", 0x4AAF50) );
+    public delegate void d_FUN_004aafa0();
+    private FhCallHandle<d_FUN_004aafa0> FUN_004aafa0
+        => new( new FhCallLocation("FFX.exe", 0x4AAFA0) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate byte d_TkMenuGetCurrentPlayer();
-    private FhMethodHandle<d_TkMenuGetCurrentPlayer> TkMenuGetCurrentPlayer
-        => new( new FhMethodLocation("FFX.exe", 0x4A9810) );
+    private FhCallHandle<d_TkMenuGetCurrentPlayer> TkMenuGetCurrentPlayer
+        => new( new FhCallLocation("FFX.exe", 0x4A9860) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a47210();
-    private FhMethodHandle<d_FUN_00a47210> FUN_00a47210
-        => new( new FhMethodLocation("FFX.exe", 0x647210) );
+    public delegate void d_FUN_00647210();
+    private FhCallHandle<d_FUN_00647210> FUN_00647210
+        => new( new FhCallLocation("FFX.exe", 0x647210) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a5aca0();
-    private FhMethodHandle<d_FUN_00a5aca0> FUN_00a5aca0
-        => new( new FhMethodLocation("FFX.exe", 0x65ACA0) );
+    public delegate void d_FUN_0065aca0();
+    private FhCallHandle<d_FUN_0065aca0> FUN_0065aca0
+        => new( new FhCallLocation("FFX.exe", 0x65ACA0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a58ff0(nint param_1);
-    private FhMethodHandle<d_FUN_00a58ff0> FUN_00a58ff0
-        => new( new FhMethodLocation("FFX.exe", 0x658FF0) );
+    public delegate void d_FUN_00658ff0(nint param_1);
+    private FhCallHandle<d_FUN_00658ff0> FUN_00658ff0
+        => new( new FhCallLocation("FFX.exe", 0x658FF0) );
 
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a48f20(int param_1);
-    private FhMethodHandle<d_FUN_00a48f20> FUN_00a48f20
-        => new( new FhMethodLocation("FFX.exe", 0x648F20) );
+    public delegate void d_FUN_00648f20(int param_1);
+    private FhCallHandle<d_FUN_00648f20> FUN_00648f20
+        => new( new FhCallLocation("FFX.exe", 0x648F20) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a48c20(int param_1);
-    private FhMethodHandle<d_FUN_00a48c20> FUN_00a48c20
-        => new( new FhMethodLocation("FFX.exe", 0x648C20) );
+    public delegate void d_FUN_00648c20(int param_1);
+    private FhCallHandle<d_FUN_00648c20> FUN_00648c20
+        => new( new FhCallLocation("FFX.exe", 0x648C20) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a48e40(int param_1, float param_2);
-    private FhMethodHandle<d_FUN_00a48e40> FUN_00a48e40
-        => new( new FhMethodLocation("FFX.exe", 0x648E40) );
+    public delegate void d_FUN_00648e40(int param_1, float param_2);
+    private FhCallHandle<d_FUN_00648e40> FUN_00648e40
+        => new( new FhCallLocation("FFX.exe", 0x648E40) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a59860(int param_1, void* param_2);
-    private FhMethodHandle<d_FUN_00a59860> FUN_00a59860
-        => new( new FhMethodLocation("FFX.exe", 0x659860) );
+    public delegate void d_FUN_00659860(int param_1, void* param_2);
+    private FhCallHandle<d_FUN_00659860> FUN_00659860
+        => new( new FhCallLocation("FFX.exe", 0x659860) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a5a2e0(int param_1);
-    private FhMethodHandle<d_FUN_00a5a2e0> FUN_00a5a2e0
-        => new( new FhMethodLocation("FFX.exe", 0x65A2E0) );
+    public delegate void d_FUN_0065a2e0(int param_1);
+    private FhCallHandle<d_FUN_0065a2e0> FUN_0065a2e0
+        => new( new FhCallLocation("FFX.exe", 0x65A2E0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int d_FUN_00a49310(int param_1, short param_2, uint param_3);
-    private FhMethodHandle<d_FUN_00a49310> FUN_00a49310
-        => new( new FhMethodLocation("FFX.exe", 0x649310) );
+    public delegate int d_FUN_00649310(int param_1, short param_2, uint param_3);
+    private FhCallHandle<d_FUN_00649310> FUN_00649310
+        => new( new FhCallLocation("FFX.exe", 0x649310) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate short d_AbmapFindNextConnectingNode(short node_idx_a, short target_node_idx, SphereGridLink** out_link);
-    private FhMethodHandle<d_AbmapFindNextConnectingNode> AbmapFindNextConnectingNode
-        => new( new FhMethodLocation("FFX.exe", 0x656E00) );
+    private FhCallHandle<d_AbmapFindNextConnectingNode> AbmapFindNextConnectingNode
+        => new( new FhCallLocation("FFX.exe", 0x656E00) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate void d_restoreVf00Register();
-    private FhMethodHandle<d_restoreVf00Register> restoreVf00Register
-        => new( new FhMethodLocation("FFX.exe", 0x2EF00) );
+    private FhCallHandle<d_restoreVf00Register> restoreVf00Register
+        => new( new FhCallLocation("FFX.exe", 0x2EF00) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a563b0(Vector4* param_1, Vector4* param_2, Vector4* param_3, Vector4* param_4, float param_5);
-    private FhMethodHandle<d_FUN_00a563b0> FUN_00a563b0
-        => new( new FhMethodLocation("FFX.exe", 0x6563B0) );
+    public delegate void d_FUN_006563b0(Vector4* param_1, Vector4* param_2, Vector4* param_3, Vector4* param_4, float param_5);
+    private FhCallHandle<d_FUN_006563b0> FUN_006563b0
+        => new( new FhCallLocation("FFX.exe", 0x6563B0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a482d0(SphereGridChrInfo* param_1, Vector4* param_2);
-    private FhMethodHandle<d_FUN_00a482d0> FUN_00a482d0
-        => new( new FhMethodLocation("FFX.exe", 0x6482D0) );
+    public delegate void d_FUN_006482d0(SphereGridChrInfo* param_1, Vector4* param_2);
+    private FhCallHandle<d_FUN_006482d0> FUN_006482d0
+        => new( new FhCallLocation("FFX.exe", 0x6482D0) );
 
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate bool d_FUN_00a49270(Vector4* param_1, Vector4* param_2);
-    private FhMethodHandle<d_FUN_00a49270> FUN_00a49270
-        => new( new FhMethodLocation("FFX.exe", 0x649270) );
+    public delegate bool d_FUN_00649270(Vector4* param_1, Vector4* param_2);
+    private FhCallHandle<d_FUN_00649270> FUN_00649270
+        => new( new FhCallLocation("FFX.exe", 0x649270) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a47440();
-    private FhMethodHandle<d_FUN_00a47440> FUN_00a47440
-        => new( new FhMethodLocation("FFX.exe", 0x647440) );
+    public delegate void d_FUN_00647440();
+    private FhCallHandle<d_FUN_00647440> FUN_00647440
+        => new( new FhCallLocation("FFX.exe", 0x647440) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate byte d_FUN_007854a0(byte param_1);
-    private FhMethodHandle<d_FUN_007854a0> FUN_007854a0
-        => new( new FhMethodLocation("FFX.exe", 0x3854A0) );
+    public delegate byte d_FUN_007853e0(byte param_1);
+    private FhCallHandle<d_FUN_007853e0> FUN_007853e0
+        => new( new FhCallLocation("FFX.exe", 0x3853E0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a474d0(short param_1, ushort param_2, byte param_3);
-    private FhMethodHandle<d_FUN_00a474d0> FUN_00a474d0
-        => new( new FhMethodLocation("FFX.exe", 0x6474D0) );
+    public delegate void d_FUN_006474d0(short param_1, ushort param_2, byte param_3);
+    private FhCallHandle<d_FUN_006474d0> FUN_006474d0
+        => new( new FhCallLocation("FFX.exe", 0x6474D0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int d_FUN_00a5b400(int param_1, short param_2, uint param_3, int param_4);
-    private FhMethodHandle<d_FUN_00a5b400> FUN_00a5b400
-        => new( new FhMethodLocation("FFX.exe", 0x65B400) );
+    public delegate int d_FUN_0065b400(int param_1, short param_2, uint param_3, int param_4);
+    private FhCallHandle<d_FUN_0065b400> FUN_0065b400
+        => new( new FhCallLocation("FFX.exe", 0x65B400) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate SphereGridNode* d_FUN_00a56a40(float* param_1, Vector4* param_2, void* param_3);
-    private FhMethodHandle<d_FUN_00a56a40> FUN_00a56a40
-        => new( new FhMethodLocation("FFX.exe", 0x656A40) );
+    public delegate SphereGridNode* d_FUN_00656a40(float* param_1, Vector4* param_2, void* param_3);
+    private FhCallHandle<d_FUN_00656a40> FUN_00656a40
+        => new( new FhCallLocation("FFX.exe", 0x656A40) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate byte* d_MsGetSaveInParty(int* param_1);
-    private FhMethodHandle<d_MsGetSaveInParty> MsGetSaveInParty
-        => new( new FhMethodLocation("FFX.exe", 0x385330) );
+    private FhCallHandle<d_MsGetSaveInParty> MsGetSaveInParty
+        => new( new FhCallLocation("FFX.exe", 0x385270) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate byte* d_MsGetSaveOutParty(int* param_1);
-    private FhMethodHandle<d_MsGetSaveOutParty> MsGetSaveOutParty
-        => new( new FhMethodLocation("FFX.exe", 0x385390) );
+    private FhCallHandle<d_MsGetSaveOutParty> MsGetSaveOutParty
+        => new( new FhCallLocation("FFX.exe", 0x3852D0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate byte d_FUN_008b9e60(uint param_1);
-    private FhMethodHandle<d_FUN_008b9e60> FUN_008b9e60
-        => new( new FhMethodLocation("FFX.exe", 0x4B9E60) );
+    public delegate byte d_FUN_004b9eb0(uint param_1);
+    private FhCallHandle<d_FUN_004b9eb0> FUN_004b9eb0
+        => new( new FhCallLocation("FFX.exe", 0x4B9EB0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int d_FUN_008b9e70(uint param_1);
-    private FhMethodHandle<d_FUN_008b9e70> FUN_008b9e70
-        => new( new FhMethodLocation("FFX.exe", 0x4B9E70) );
+    public delegate int d_FUN_004b9ec0(uint param_1);
+    private FhCallHandle<d_FUN_004b9ec0> FUN_004b9ec0
+        => new( new FhCallLocation("FFX.exe", 0x4B9EC0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int d_FUN_008ba330(int param_1, int param_2);
-    private FhMethodHandle<d_FUN_008ba330> FUN_008ba330
-        => new( new FhMethodLocation("FFX.exe", 0x4BA330) );
+    public delegate int d_FUN_004ba370(int param_1, int param_2);
+    private FhCallHandle<d_FUN_004ba370> FUN_004ba370
+        => new( new FhCallLocation("FFX.exe", 0x4BA370) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_008ba3c0();
-    private FhMethodHandle<d_FUN_008ba3c0> FUN_008ba3c0
-        => new( new FhMethodLocation("FFX.exe", 0x4BA3C0) );
+    public delegate void d_FUN_004ba400();
+    private FhCallHandle<d_FUN_004ba400> FUN_004ba400
+        => new( new FhCallLocation("FFX.exe", 0x4BA400) );
 
 
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a5ad30(Matrix4x4* param_1, SphereGridNode* node, float param_3);
-    private FhMethodHandle<d_FUN_00a5ad30> FUN_00a5ad30
-        => new( new FhMethodLocation("FFX.exe", 0x65AD30) );
+    public delegate void d_FUN_0065ad30(Matrix4x4* param_1, SphereGridNode* node, float param_3);
+    private FhCallHandle<d_FUN_0065ad30> FUN_0065ad30
+        => new( new FhCallLocation("FFX.exe", 0x65AD30) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a5a360(Matrix4x4* param_1, SphereGridNode* node, Vec2s16* param_3, float param_4);
-    private FhMethodHandle<d_FUN_00a5a360> FUN_00a5a360
-        => new( new FhMethodLocation("FFX.exe", 0x65A360) );
+    public delegate void d_FUN_0065a360(Matrix4x4* param_1, SphereGridNode* node, Vec2s16* param_3, float param_4);
+    private FhCallHandle<d_FUN_0065a360> FUN_0065a360
+        => new( new FhCallLocation("FFX.exe", 0x65A360) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00639280(int param_1);
-    private FhMethodHandle<d_FUN_00639280> FUN_00639280
-        => new( new FhMethodLocation("FFX.exe", 0x239280) );
+    public delegate void d_FUN_002390D0(int param_1);
+    private FhCallHandle<d_FUN_002390D0> FUN_002390D0
+        => new( new FhCallLocation("FFX.exe", 0x2390D0) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate void d_MsInitChrAbilityMap();
-    private FhMethodHandle<d_MsInitChrAbilityMap> MsInitChrAbilityMap
-        => new( new FhMethodLocation("FFX.exe", 0x398830) );
+    private FhCallHandle<d_MsInitChrAbilityMap> MsInitChrAbilityMap
+        => new( new FhCallLocation("FFX.exe", 0x398820) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate MsChrAbilityMap* d_MsGetChrAbilityMap(uint chr_id);
-    private FhMethodHandle<d_MsGetChrAbilityMap> MsGetChrAbilityMap
-        => new( new FhMethodLocation("FFX.exe", 0x398800) );
+    private FhCallHandle<d_MsGetChrAbilityMap> MsGetChrAbilityMap
+        => new( new FhCallLocation("FFX.exe", 0x3987F0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_MsSetChrAbilityMapCommand(uint chr_id, uint ability_id);
-    private FhMethodHandle<d_MsSetChrAbilityMapCommand> MsSetChrAbilityMapCommand
-        => new( new FhMethodLocation("FFX.exe", 0x398850) );
+    private FhCallHandle<d_MsSetChrAbilityMapCommand> MsSetChrAbilityMapCommand
+        => new( new FhCallLocation("FFX.exe", 0x398840) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate void d_MsSetSaveParamAll();
-    private FhMethodHandle<d_MsSetSaveParamAll> MsSetSaveParamAll
-        => new( new FhMethodLocation("FFX.exe", 0x3869C0) );
+    private FhCallHandle<d_MsSetSaveParamAll> MsSetSaveParamAll
+        => new( new FhCallLocation("FFX.exe", 0x386900) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a51720(uint* param_1, float* param_2, int param_3);
-    private FhMethodHandle<d_FUN_00a51720> FUN_00a51720
-        => new( new FhMethodLocation("FFX.exe", 0x00651720) );
+    public delegate void d_FUN_00651720(uint* param_1, float* param_2, int param_3);
+    private FhCallHandle<d_FUN_00651720> FUN_00651720
+        => new( new FhCallLocation("FFX.exe", 0x651720) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a521a0(uint* param_1, float* param_2, int param_3);
-    private FhMethodHandle<d_FUN_00a521a0> FUN_00a521a0
-        => new( new FhMethodLocation("FFX.exe", 0x006521a0) );
+    public delegate void d_FUN_006521a0(uint* param_1, float* param_2, int param_3);
+    private FhCallHandle<d_FUN_006521a0> FUN_006521a0
+        => new( new FhCallLocation("FFX.exe", 0x6521a0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_FFXVu0MulVector(Vector4* param_1, Vector4* param_2, Vector4* param_3);
-    private FhMethodHandle<d_FFXVu0MulVector> FFXVu0MulVector
-        => new( new FhMethodLocation("FFX.exe", 0x002ed710) );
+    private FhCallHandle<d_FFXVu0MulVector> FFXVu0MulVector
+        => new( new FhCallLocation("FFX.exe", 0x2ED5D0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_graphicFontGetScreenWH(int* out_width, int* out_height);
-    private FhMethodHandle<d_graphicFontGetScreenWH> graphicFontGetScreenWH
-        => new( new FhMethodLocation("FFX.exe", 0x00240f60) );
+    private FhCallHandle<d_graphicFontGetScreenWH> graphicFontGetScreenWH
+        => new( new FhCallLocation("FFX.exe", 0x240DB0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate abmapVertexInfo* d_graphicAbmapGetVertexInfo(byte* param_1, int param_2);
-    private FhMethodHandle<d_graphicAbmapGetVertexInfo> graphicAbmapGetVertexInfo
-        => new( new FhMethodLocation("FFX.exe", 0x00239180) );
+    private FhCallHandle<d_graphicAbmapGetVertexInfo> graphicAbmapGetVertexInfo
+        => new( new FhCallLocation("FFX.exe", 0x238FD0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_fiosUnifyFilename(nint in_string, nint out_buffer, int buffer_size);
-    private FhMethodHandle<d_fiosUnifyFilename> fiosUnifyFilename
-        => new( new FhMethodLocation("FFX.exe", 0x002799d0) );
+    private FhCallHandle<d_fiosUnifyFilename> fiosUnifyFilename
+        => new( new FhCallLocation("FFX.exe", 0x279820) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a51340();
-    private FhMethodHandle<d_FUN_00a51340> FUN_00a51340
-        => new( new FhMethodLocation("FFX.exe", 0x651340) );
+    public delegate void d_FUN_00651340();
+    private FhCallHandle<d_FUN_00651340> FUN_00651340
+        => new( new FhCallLocation("FFX.exe", 0x651340) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a51560(int param_1);
-    private FhMethodHandle<d_FUN_00a51560> FUN_00a51560
-        => new( new FhMethodLocation("FFX.exe", 0x651560) );
+    public delegate void d_FUN_00651560(int param_1);
+    private FhCallHandle<d_FUN_00651560> FUN_00651560
+        => new( new FhCallLocation("FFX.exe", 0x651560) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a4fe40();
-    private FhMethodHandle<d_FUN_00a4fe40> FUN_00a4fe40
-        => new( new FhMethodLocation("FFX.exe", 0x64FE40) );
+    public delegate void d_FUN_0064fe40();
+    private FhCallHandle<d_FUN_0064fe40> FUN_0064fe40
+        => new( new FhCallLocation("FFX.exe", 0x64FE40) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int d_FUN_007f4900(int param_1, FUN_007f4900_param_2* param_2, int param_3, uint param_4);
-    private FhMethodHandle<d_FUN_007f4900> FUN_007f4900
-        => new( new FhMethodLocation("FFX.exe", 0x3F4900) );
+    public delegate int d_FUN_003f49e0(int param_1, FUN_003f49e0_param_2* param_2, int param_3, uint param_4);
+    private FhCallHandle<d_FUN_003f49e0> FUN_003f49e0
+        => new( new FhCallLocation("FFX.exe", 0x3F49E0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate char* d_TOGetShapTextureName(int param_1);
-    private FhMethodHandle<d_TOGetShapTextureName> TOGetShapTextureName
-        => new( new FhMethodLocation("FFX.exe", 0x4AC870) );
+    public delegate void d_graphicDrawUIElement(graphicDrawUIAbmapElement_param1* param_1, byte* param_2, int param_3, int param_4, int param_5);
+    private FhCallHandle<d_graphicDrawUIElement> graphicDrawUIElement
+        => new( new FhCallLocation("FFX.exe", 0x23EEE0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_TOGetImageWH(int param_1, float* param_2, float* param_3);
-    private FhMethodHandle<d_TOGetImageWH> TOGetImageWH
-        => new( new FhMethodLocation("FFX.exe", 0x4AC3B0) );
+    public delegate int d_FUN_006457d0(int chr_id, int node_idx);
+    private FhCallHandle<d_FUN_006457d0> FUN_006457d0
+        => new( new FhCallLocation("FFX.exe", 0x6457D0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_graphicDrawUIElement(graphicDrawUIAbmapElement_param1* param_1, char* param_2, int param_3, int param_4, int param_5);
-    private FhMethodHandle<d_graphicDrawUIElement> graphicDrawUIElement
-        => new( new FhMethodLocation("FFX.exe", 0x23F090) );
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int d_FUN_00a457d0(int chr_id, int node_idx);
-    private FhMethodHandle<d_FUN_00a457d0> FUN_00a457d0
-        => new( new FhMethodLocation("FFX.exe", 0x6457D0) );
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int d_FUN_00a45870(int chr_id);
-    private FhMethodHandle<d_FUN_00a45870> FUN_00a45870
-        => new( new FhMethodLocation("FFX.exe", 0x645870) );
+    public delegate int d_FUN_00645870(int chr_id);
+    private FhCallHandle<d_FUN_00645870> FUN_00645870
+        => new( new FhCallLocation("FFX.exe", 0x645870) );
 
 
     // Hooks
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a44d30();
-    public FhMethodHandle<d_FUN_00a44d30> FUN_00a44d30
-        => new( new FhMethodLocation("FFX.exe", 0x644D30) );
+    public delegate void d_FUN_00644d30();
+    public FhCallHandle<d_FUN_00644d30> FUN_00644d30
+        => new( new FhCallLocation("FFX.exe", 0x644D30) );
 
     // Not defined in ffx-v2
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a45010();
-    public FhMethodHandle<d_FUN_00a45010> FUN_00a45010
-        => new( new FhMethodLocation("FFX.exe", 0x645010) );
+    public delegate void d_FUN_00645010();
+    public FhCallHandle<d_FUN_00645010> FUN_00645010
+        => new( new FhCallLocation("FFX.exe", 0x645010) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int d_abmap_get_chr_point(int param_1);
-    public FhMethodHandle<d_abmap_get_chr_point> abmap_get_chr_point
-        => new( new FhMethodLocation("FFX.exe", 0x645870) );
+    public FhCallHandle<d_abmap_get_chr_point> abmap_get_chr_point
+        => new( new FhCallLocation("FFX.exe", 0x645870) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a47d50();
-    public FhMethodHandle<d_FUN_00a47d50> FUN_00a47d50
-        => new( new FhMethodLocation("FFX.exe", 0x647d50) );
+    public delegate void d_FUN_00647d50();
+    public FhCallHandle<d_FUN_00647d50> FUN_00647d50
+        => new( new FhCallLocation("FFX.exe", 0x647d50) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a47f00();
-    public FhMethodHandle<d_FUN_00a47f00> FUN_00a47f00
-        => new( new FhMethodLocation("FFX.exe", 0x647f00) );
+    public delegate void d_FUN_00647f00();
+    public FhCallHandle<d_FUN_00647f00> FUN_00647f00
+        => new( new FhCallLocation("FFX.exe", 0x647f00) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_abmap_set_chr_posInternal_00a48a80(int chr_id, short node_idx);
-    public FhMethodHandle<d_abmap_set_chr_posInternal_00a48a80> abmap_set_chr_posInternal_00a48a80
-        => new( new FhMethodLocation("FFX.exe", 0x648A80) );
+    public delegate void d_abmap_set_chr_posInternal_00648a80(int chr_id, short node_idx);
+    public FhCallHandle<d_abmap_set_chr_posInternal_00648a80> abmap_set_chr_posInternal_00648a80
+        => new( new FhCallLocation("FFX.exe", 0x648A80) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a48c80(int chr_id, short node_idx);
-    public FhMethodHandle<d_FUN_00a48c80> FUN_00a48c80
-        => new( new FhMethodLocation("FFX.exe", 0x648c80) );
+    public delegate void d_FUN_00648c80(int chr_id, short node_idx);
+    public FhCallHandle<d_FUN_00648c80> FUN_00648c80
+        => new( new FhCallLocation("FFX.exe", 0x648C80) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a49590();
-    public FhMethodHandle<d_FUN_00a49590> FUN_00a49590
-        => new( new FhMethodLocation("FFX.exe", 0x649590) );
+    public delegate void d_FUN_00649590();
+    public FhCallHandle<d_FUN_00649590> FUN_00649590
+        => new( new FhCallLocation("FFX.exe", 0x649590) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a4b790();
-    public FhMethodHandle<d_FUN_00a4b790> FUN_00a4b790
-        => new( new FhMethodLocation("FFX.exe", 0x64b790) );
+    public delegate void d_FUN_0064b790();
+    public FhCallHandle<d_FUN_0064b790> FUN_0064b790
+        => new( new FhCallLocation("FFX.exe", 0x64B790) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a4c8d0();
-    public FhMethodHandle<d_FUN_00a4c8d0> FUN_00a4c8d0
-        => new( new FhMethodLocation("FFX.exe", 0x64c8d0) );
+    public delegate void d_FUN_0064c8d0();
+    public FhCallHandle<d_FUN_0064c8d0> FUN_0064c8d0
+        => new( new FhCallLocation("FFX.exe", 0x64C8D0) );
 
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate void d_eiAbmStart();
-    public FhMethodHandle<d_eiAbmStart> eiAbmStart
-        => new( new FhMethodLocation("FFX.exe", 0x654B40) );
+    public FhCallHandle<d_eiAbmStart> eiAbmStart
+        => new( new FhCallLocation("FFX.exe", 0x654B40) );
 
     // Called when using (special?) sphere
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a560d0(nint param_1, int param_2, nint param_3, int param_4);
-    public FhMethodHandle<d_FUN_00a560d0> FUN_00a560d0
-        => new( new FhMethodLocation("FFX.exe", 0x6560D0) );
+    public delegate void d_FUN_006560d0(nint param_1, int param_2, nint param_3, int param_4);
+    public FhCallHandle<d_FUN_006560d0> FUN_006560d0
+        => new( new FhCallLocation("FFX.exe", 0x6560D0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a56160(nint param_1, int param_2, nint param_3, int param_4);
-    public FhMethodHandle<d_FUN_00a56160> FUN_00a56160
-        => new( new FhMethodLocation("FFX.exe", 0x656160) );
+    public delegate void d_FUN_00656160(nint param_1, int param_2, nint param_3, int param_4);
+    public FhCallHandle<d_FUN_00656160> FUN_00656160
+        => new( new FhCallLocation("FFX.exe", 0x656160) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a57f80(uint chr_id, int node_idx, uint param_3, uint param_4, uint param_5, uint param_6);
-    public FhMethodHandle<d_FUN_00a57f80> FUN_00a57f80
-        => new( new FhMethodLocation("FFX.exe", 0x657F80) );
+    public delegate void d_FUN_00657f80(uint chr_id, int node_idx, uint param_3, uint param_4, uint param_5, uint param_6);
+    public FhCallHandle<d_FUN_00657f80> FUN_00657f80
+        => new( new FhCallLocation("FFX.exe", 0x657F80) );
     //private FUN_00a57f80 _FUN_00a57f80; // => fhutil.get_fptr<FUN_00a57f80>(__addr_FUN_00a57f80);
 
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a58080(int chr_id);
-    public FhMethodHandle<d_FUN_00a58080> FUN_00a58080
-        => new( new FhMethodLocation("FFX.exe", 0x658080) );
+    public delegate void d_FUN_00658080(int chr_id);
+    public FhCallHandle<d_FUN_00658080> FUN_00658080
+        => new( new FhCallLocation("FFX.exe", 0x658080) );
     //private FUN_00a58080 _FUN_00a58080; // => fhutil.get_fptr<FUN_00a58080>(__addr_FUN_00a58080);
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a58ec0();
-    public FhMethodHandle<d_FUN_00a58ec0> FUN_00a58ec0
-        => new( new FhMethodLocation("FFX.exe", 0x658EC0) );
+    public delegate void d_FUN_00658ec0();
+    public FhCallHandle<d_FUN_00658ec0> FUN_00658ec0
+        => new( new FhCallLocation("FFX.exe", 0x658EC0) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a598a0();
-    public FhMethodHandle<d_FUN_00a598a0> FUN_00a598a0
-        => new( new FhMethodLocation("FFX.exe", 0x6598A0) );
+    public delegate void d_FUN_006598a0();
+    public FhCallHandle<d_FUN_006598a0> FUN_006598a0
+        => new( new FhCallLocation("FFX.exe", 0x6598A0) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a59990();
-    public FhMethodHandle<d_FUN_00a59990> FUN_00a59990
-        => new( new FhMethodLocation("FFX.exe", 0x659990) );
+    public delegate void d_FUN_00659990();
+    public FhCallHandle<d_FUN_00659990> FUN_00659990
+        => new( new FhCallLocation("FFX.exe", 0x659990) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a5a4b0();
-    public FhMethodHandle<d_FUN_00a5a4b0> FUN_00a5a4b0
-        => new( new FhMethodLocation("FFX.exe", 0x65A4B0) );
+    public delegate void d_FUN_0065a4b0();
+    public FhCallHandle<d_FUN_0065a4b0> FUN_0065a4b0
+        => new( new FhCallLocation("FFX.exe", 0x65A4B0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a5a990(int param_1);
-    public FhMethodHandle<d_FUN_00a5a990> FUN_00a5a990
-        => new( new FhMethodLocation("FFX.exe", 0x65a990) );
+    public delegate void d_FUN_0065a990(int param_1);
+    public FhCallHandle<d_FUN_0065a990> FUN_0065a990
+        => new( new FhCallLocation("FFX.exe", 0x65A990) );
     //private FUN_00a5a990 _FUN_00a5a990; // => fhutil.get_fptr<FUN_00a5a990>(__addr_FUN_00a5a990);
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a5b030();
-    public FhMethodHandle<d_FUN_00a5b030> FUN_00a5b030
-        => new( new FhMethodLocation("FFX.exe", 0x65b030) );
+    public delegate void d_FUN_0065b030();
+    public FhCallHandle<d_FUN_0065b030> FUN_0065b030
+        => new( new FhCallLocation("FFX.exe", 0x65B030) );
     //private FUN_00a5b030 _FUN_00a5b030; // => fhutil.get_fptr<FUN_00a5b030>(__addr_FUN_00a5b030);
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a5b7b0();
-    public FhMethodHandle<d_FUN_00a5b7b0> FUN_00a5b7b0
-        => new( new FhMethodLocation("FFX.exe", 0x65B7B0) );
+    public delegate void d_FUN_0065b7b0();
+    public FhCallHandle<d_FUN_0065b7b0> FUN_0065b7b0
+        => new( new FhCallLocation("FFX.exe", 0x65B7B0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a5b980(uint param_1, short param_2, uint param_3);
-    public FhMethodHandle<d_FUN_00a5b980> FUN_00a5b980
-        => new( new FhMethodLocation("FFX.exe", 0x65B980) );
+    public delegate void d_FUN_0065b980(uint param_1, short param_2, uint param_3);
+    public FhCallHandle<d_FUN_0065b980> FUN_0065b980
+        => new( new FhCallLocation("FFX.exe", 0x65B980) );
     //private FUN_00a5b980 _FUN_00a5b980; // => fhutil.get_fptr<FUN_00a5b980>(__addr_FUN_00a5b980);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a5bb70();
-    public FhMethodHandle<d_FUN_00a5bb70> FUN_00a5bb70
-        => new( new FhMethodLocation("FFX.exe", 0x65BB70) );
+    public delegate void d_FUN_0065bb70();
+    public FhCallHandle<d_FUN_0065bb70> FUN_0065bb70
+        => new( new FhCallLocation("FFX.exe", 0x65BB70) );
     //private FUN_00a5bb70 _FUN_00a5bb70; // => fhutil.get_fptr<FUN_00a5bb70>(__addr_FUN_00a5bb70);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_008a8ef0(uint param_1);
-    public FhMethodHandle<d_FUN_008a8ef0> FUN_008a8ef0
-        => new( new FhMethodLocation("FFX.exe", 0x4A8EF0) );
+    public delegate void d_FUN_004a8f40(uint param_1);
+    public FhCallHandle<d_FUN_004a8f40> FUN_004a8f40
+        => new( new FhCallLocation("FFX.exe", 0x4A8F40) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_008bddc0();
-    public FhMethodHandle<d_FUN_008bddc0> FUN_008bddc0
-        => new( new FhMethodLocation("FFX.exe", 0x4BDDC0) );
+    public delegate void d_FUN_004bde00();
+    public FhCallHandle<d_FUN_004bde00> FUN_004bde00
+        => new( new FhCallLocation("FFX.exe", 0x4BDE00) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a505e0();
-    public FhMethodHandle<d_FUN_00a505e0> FUN_00a505e0
-        => new( new FhMethodLocation("FFX.exe", 0x6505E0) );
+    public delegate void d_FUN_006505e0();
+    public FhCallHandle<d_FUN_006505e0> FUN_006505e0
+        => new( new FhCallLocation("FFX.exe", 0x6505E0) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a534c0();
-    public FhMethodHandle<d_FUN_00a534c0> FUN_00a534c0
-        => new( new FhMethodLocation("FFX.exe", 0x6534C0) );
+    public delegate void d_FUN_006534c0();
+    public FhCallHandle<d_FUN_006534c0> FUN_006534c0
+        => new( new FhCallLocation("FFX.exe", 0x6534C0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a50ed0(int param_1);
-    public FhMethodHandle<d_FUN_00a50ed0> FUN_00a50ed0
-        => new( new FhMethodLocation("FFX.exe", 0x650ED0) );
+    public delegate void d_FUN_00650ed0(int param_1);
+    public FhCallHandle<d_FUN_00650ed0> FUN_00650ed0
+        => new( new FhCallLocation("FFX.exe", 0x650ED0) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a4b4b0();
-    public FhMethodHandle<d_FUN_00a4b4b0> FUN_00a4b4b0
-        => new( new FhMethodLocation("FFX.exe", 0x64B4B0) );
+    public delegate void d_FUN_0064b4b0();
+    public FhCallHandle<d_FUN_0064b4b0> FUN_0064b4b0
+        => new( new FhCallLocation("FFX.exe", 0x64B4B0) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void d_FUN_00a53de0(SaveSphereGrid* save_sphere_grid);
-    public FhMethodHandle<d_FUN_00a53de0> FUN_00a53de0
-        => new( new FhMethodLocation("FFX.exe", 0x653de0) );
+    public delegate void d_FUN_00653de0(SaveSphereGrid* save_sphere_grid);
+    public FhCallHandle<d_FUN_00653de0> FUN_00653de0
+        => new( new FhCallLocation("FFX.exe", 0x653DE0) );
 
     [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
     public delegate abmapVertexInfo* d_AbmapManager_AllocBuffMemory(nint abmapManager, int param_1);
-    public FhMethodHandle<d_AbmapManager_AllocBuffMemory> AbmapManager_AllocBuffMemory
-        => new( new FhMethodLocation("FFX.exe", 0x281db0) );
+    public FhCallHandle<d_AbmapManager_AllocBuffMemory> AbmapManager_AllocBuffMemory
+        => new( new FhCallLocation("FFX.exe", 0x281C10) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int d_op1_md_draw_eiabm_sphe(int param_1, temp_FUN_00a4c8d0_struct* param_2, int node_idx, int chr_id);
-    public FhMethodHandle<d_op1_md_draw_eiabm_sphe> op1_md_draw_eiabm_sphe
-        => new( new FhMethodLocation("FFX.exe", 0x668140) );
+    public FhCallHandle<d_op1_md_draw_eiabm_sphe> op1_md_draw_eiabm_sphe
+        => new( new FhCallLocation("FFX.exe", 0x668140) );
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void d_FUN_00a53510();
-    public FhMethodHandle<d_FUN_00a53510> FUN_00a53510
-        => new( new FhMethodLocation("FFX.exe", 0x653510) );
+    public delegate void d_FUN_00653510();
+    public FhCallHandle<d_FUN_00653510> FUN_00653510
+        => new( new FhCallLocation("FFX.exe", 0x653510) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate int d_FUN_008efd90(int param_1, int chr_id, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8, int param_9);
-    public FhMethodHandle<d_FUN_008efd90> FUN_008efd90
-        => new( new FhMethodLocation("FFX.exe", 0x4EFD90) );
+    public delegate int d_FUN_004efd90(int param_1, int chr_id, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8, int param_9);
+    public FhCallHandle<d_FUN_004efd90> FUN_008efd90
+        => new( new FhCallLocation("FFX.exe", 0x4EFD90) );
 
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_eiAbmParaGet();
-    public FhMethodHandle<d_eiAbmParaGet> eiAbmParaGet
-        => new( new FhMethodLocation("FFX.exe", 0x654860) );
+    public FhCallHandle<d_eiAbmParaGet> eiAbmParaGet
+        => new( new FhCallLocation("FFX.exe", 0x654860) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate bool d_FUN_00a5d120(byte sphere_type, int node_idx, SphereGridNodeType* param_3, int chr_id);
-    public FhMethodHandle<d_FUN_00a5d120> FUN_00a5d120
-        => new( new FhMethodLocation("FFX.exe", 0x65d120) );
+    public delegate bool d_FUN_0065d120(byte sphere_type, int node_idx, SphereGridNodeType* param_3, int chr_id);
+    public FhCallHandle<d_FUN_0065d120> FUN_0065d120
+        => new( new FhCallLocation("FFX.exe", 0x65D120) );
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate bool d_FUN_00a45800(int chr_id, int nodes_idx);
-    public FhMethodHandle<d_FUN_00a45800> FUN_00a45800
-        => new( new FhMethodLocation("FFX.exe", 0x645800) );
+    public delegate bool d_FUN_00645800(int chr_id, int nodes_idx);
+    public FhCallHandle<d_FUN_00645800> FUN_00645800
+        => new( new FhCallLocation("FFX.exe", 0x645800) );
 
     private static uint num_characters = 8;
     private SphereGridChrInfo* custom_party_infos;
@@ -821,44 +785,44 @@ public unsafe class CustomCharacterModule : FhModule {
         p_DAT_00c865bc[7] = 0x806A6A00; // Node to move to color (each byte is circle color * 2/3)
 
 
-        return FUN_00a44d30.hook(this, h_FUN_00a44d30) &&
-               FUN_00a45010.hook(this, h_FUN_00a45010) &&
+        return FUN_00644d30.hook(this, h_FUN_00a44d30) &&
+               FUN_00645010.hook(this, h_FUN_00a45010) &&
                abmap_get_chr_point.hook(this, h_abmap_get_chr_point) &&
-               FUN_00a47d50.hook(this, h_FUN_00a47d50) &&
-               FUN_00a47f00.hook(this, h_FUN_00a47f00) &&
-               abmap_set_chr_posInternal_00a48a80.hook(this, h_abmap_set_chr_posInternal_00a48a80) &&
-               FUN_00a48c80.hook(this, h_FUN_00a48c80) &&
-               FUN_00a49590.hook(this, h_FUN_00a49590) &&
-               FUN_00a4b790.hook(this, h_FUN_00a4b790) &&
-               FUN_00a4c8d0.hook(this, h_FUN_00a4c8d0) &&
+               FUN_00647d50.hook(this, h_FUN_00a47d50) &&
+               FUN_00647f00.hook(this, h_FUN_00a47f00) &&
+               abmap_set_chr_posInternal_00648a80.hook(this, h_abmap_set_chr_posInternal_00a48a80) &&
+               FUN_00648c80.hook(this, h_FUN_00a48c80) &&
+               FUN_00649590.hook(this, h_FUN_00a49590) &&
+               FUN_0064b790.hook(this, h_FUN_00a4b790) &&
+               FUN_0064c8d0.hook(this, h_FUN_00a4c8d0) &&
                eiAbmStart.hook(this, h_eiAbmStart) &&
-               FUN_00a560d0.hook(this, h_FUN_00a560d0) &&
-               FUN_00a56160.hook(this, h_FUN_00a56160) &&
-               FUN_00a57f80.hook(this, h_FUN_00a57f80) &&
-               FUN_00a58080.hook(this, h_FUN_00a58080) &&
-               FUN_00a58ec0.hook(this, h_FUN_00a58ec0) &&
-               FUN_00a598a0.hook(this, h_FUN_00a598a0) &&
-               FUN_00a59990.hook(this, h_FUN_00a59990) &&
-               FUN_00a5a4b0.hook(this, h_FUN_00a5a4b0) &&
-               FUN_00a5a990.hook(this, h_FUN_00a5a990) &&
-               FUN_00a5b030.hook(this, h_FUN_00a5b030) &&
-               FUN_00a5b7b0.hook(this, h_FUN_00a5b7b0) &&
-               FUN_00a5b980.hook(this, h_FUN_00a5b980) &&
-               FUN_00a5bb70.hook(this, h_FUN_00a5bb70) &&
-               FUN_008a8ef0.hook(this, h_FUN_008a8ef0) &&
-               FUN_008bddc0.hook(this, h_FUN_008bddc0) &&
-               FUN_00a505e0.hook(this, h_FUN_00a505e0) &&
-               FUN_00a50ed0.hook(this, h_FUN_00a50ed0) &&
-               FUN_00a534c0.hook(this, h_FUN_00a534c0) &&
+               FUN_006560d0.hook(this, h_FUN_00a560d0) &&
+               FUN_00656160.hook(this, h_FUN_00a56160) &&
+               FUN_00657f80.hook(this, h_FUN_00a57f80) &&
+               FUN_00658080.hook(this, h_FUN_00a58080) &&
+               FUN_00658ec0.hook(this, h_FUN_00a58ec0) &&
+               FUN_006598a0.hook(this, h_FUN_00a598a0) &&
+               FUN_00659990.hook(this, h_FUN_00a59990) &&
+               FUN_0065a4b0.hook(this, h_FUN_00a5a4b0) &&
+               FUN_0065a990.hook(this, h_FUN_00a5a990) &&
+               FUN_0065b030.hook(this, h_FUN_00a5b030) &&
+               FUN_0065b7b0.hook(this, h_FUN_00a5b7b0) &&
+               FUN_0065b980.hook(this, h_FUN_00a5b980) &&
+               FUN_0065bb70.hook(this, h_FUN_00a5bb70) &&
+               FUN_004a8f40.hook(this, h_FUN_008a8ef0) &&
+               FUN_004bde00.hook(this, h_FUN_008bddc0) &&
+               FUN_006505e0.hook(this, h_FUN_00a505e0) &&
+               FUN_00650ed0.hook(this, h_FUN_00a50ed0) &&
+               FUN_006534c0.hook(this, h_FUN_00a534c0) &&
                op1_md_draw_eiabm_sphe.hook(this, h_op1_md_draw_eiabm_sphe) &&
                AbmapManager_AllocBuffMemory.hook(this, h_AbmapManager_AllocBuffMemory) && // Testing
-               FUN_00a53510.hook(this, h_FUN_00a53510) &&
-               FUN_00a4b4b0.hook(this, h_FUN_00a4b4b0) &&
-               FUN_00a53de0.hook(this, h_FUN_00a53de0) &&
+               FUN_00653510.hook(this, h_FUN_00a53510) &&
+               FUN_0064b4b0.hook(this, h_FUN_00a4b4b0) &&
+               FUN_00653de0.hook(this, h_FUN_00a53de0) &&
                FUN_008efd90.hook(this, h_FUN_008efd90) &&
                eiAbmParaGet.hook(this, h_eiAbmParaGet) &&
-               FUN_00a5d120.hook(this, h_FUN_00a5d120) &&
-               FUN_00a45800.hook(this, h_FUN_00a45800);
+               FUN_0065d120.hook(this, h_FUN_00a5d120) &&
+               FUN_00645800.hook(this, h_FUN_00a45800);
     }
 
 
@@ -943,31 +907,31 @@ public unsafe class CustomCharacterModule : FhModule {
     private LpAbilityMapEngine* lpamng => Globals.SphereGrid.lpamng;
     private nint  sphere_bin_ptr => FhUtil.get_at<nint>(0x16860E4);
     private SphereGridMenuData* sphere_grid_menu_ptr  => (SphereGridMenuData*)FhUtil.get_at<nint>(0x01686108);
-    private short _DAT_01a8607e => FhUtil.get_at<byte>(0x0168607e);
-    private nint  p_DAT_01a86034  => (nint)FhUtil.ptr_at<nint>(0x1686034);
-    private nint  p_DAT_016c1830  => (nint)FhUtil.ptr_at<nint>(0x12C1830);
-    private nint  p_DAT_01a86060  => (nint)FhUtil.ptr_at<nint>(0x1686060);
+    private short _DAT_0168607e => FhUtil.get_at<byte>(0x0168607E);
+    private nint  p_DAT_01686034  => (nint)FhUtil.ptr_at<nint>(0x1686034);
+    private nint  p_DAT_012c1830  => (nint)FhUtil.ptr_at<nint>(0x12C1830);
+    private nint  p_DAT_01686060  => (nint)FhUtil.ptr_at<nint>(0x1686060);
     private nint* p_ppvCurPrimp => FhUtil.ptr_at<nint>(0x1F0FD2C);
 
-    private uint _gParticleDoNotRender => FhUtil.get_at<uint>(0xEFB790);
+    private uint _gParticleDoNotRender => FhUtil.get_at<uint>(0xEFB7D0);
 
 
-    private uint*  p_DAT_01841bf0                       => FhUtil.ptr_at<uint>(0x01441bf0);
-    private uint*  p_DAT_01841bf4                       => FhUtil.ptr_at<uint>(0x01441bf4);
-    private uint*  p_DAT_01841bec                       => FhUtil.ptr_at<uint>(0x01441bec);
-    private byte*  p_DAT_01841bd4_PauseMenuPlayerList   => FhUtil.ptr_at<byte>(0x01441bd4);
-    private uint*  p_DAT_01841be4_PauseMenuFrontlineNum => FhUtil.ptr_at<uint>(0x01441be4);
-    private uint*  p_UINT_01841bdc_PlayerListMax        => FhUtil.ptr_at<uint>(0x01441bdc);
-    private uint*  p_UINT_01841be0_PlayerListMax        => FhUtil.ptr_at<uint>(0x01441be0);
-    private uint*  p_DAT_01841be8_PauseMenuSelIdx       => FhUtil.ptr_at<uint>(0x01441be8);
+    private uint*  p_DAT_01441c30                       => FhUtil.ptr_at<uint>(0x01441c30);
+    private uint*  p_DAT_01441c34                       => FhUtil.ptr_at<uint>(0x01441c34);
+    private uint*  p_DAT_01441c2c                       => FhUtil.ptr_at<uint>(0x01441c2c);
+    private byte*  p_DAT_01441c14_PauseMenuPlayerList   => FhUtil.ptr_at<byte>(0x01441c14);
+    private uint*  p_DAT_01441c24_PauseMenuFrontlineNum => FhUtil.ptr_at<uint>(0x01441c24);
+    private uint*  p_UINT_01441c1c_PlayerListMax        => FhUtil.ptr_at<uint>(0x01441c1c);
+    private uint*  p_UINT_01441c20_PlayerListMax        => FhUtil.ptr_at<uint>(0x01441c20);
+    private uint*  p_DAT_01441c28_PauseMenuSelIdx       => FhUtil.ptr_at<uint>(0x01441c28);
 
-    private byte* p_DAT_01869ed9 => FhUtil.ptr_at<byte>(0x01469ed9);
-    private int*  p_DAT_01869ee4 => FhUtil.ptr_at<int >(0x01469ee4);
-    private byte* p_DAT_01869ed8 => FhUtil.ptr_at<byte>(0x01469ed8);
+    private byte* p_DAT_01469f19 => FhUtil.ptr_at<byte>(0x01469F19);
+    private int*  p_DAT_01469f24 => FhUtil.ptr_at<int >(0x01469F24);
+    private byte* p_DAT_01869F18 => FhUtil.ptr_at<byte>(0x01469F18);
 
-    private int  DAT_023057ec   => FhUtil.get_at<int>(0x1F057EC);
+    private int  DAT_01F057ec   => FhUtil.get_at<int>(0x1F057EC);
 
-    private int* p_DAT_018663a8 => FhUtil.ptr_at<int>(0x14663A8);
+    private int* p_DAT_014663e8 => FhUtil.ptr_at<int>(0x14663E8);
 
 
     //private Vector4* Vector4f_ARRAY_00c86010 => FhUtil.ptr_at<Vector4>(0x886010); // Selected character ambient(?) light color on surrounding nodes
@@ -980,31 +944,31 @@ public unsafe class CustomCharacterModule : FhModule {
     private uint* p_DAT_00c8659c; // Active indicator color
     private uint* p_DAT_00c865bc; // Highligted nodes color
 
-    private float* eff_sin_t => FhUtil.ptr_at<float>(0x844BE0);
+    private float* eff_sin_t => FhUtil.ptr_at<float>(0x844BF0);
 
-    private int DAT_023057f8 => FhUtil.get_at<int>(0x1F057F8);
-    private int DAT_023057fc => FhUtil.get_at<int>(0x1F057FC);
-    private int* p_DAT_01740830_sphere_grid_layout_dat => FhUtil.ptr_at<int>(0x1340830);
-
-
-    private int* p_DAT_01a85f70 => FhUtil.ptr_at<int>(0x1685F70);
-    private int* p_DAT_01a85f74 => FhUtil.ptr_at<int>(0x1685F74);
-    private int  DAT_02305800 => FhUtil.get_at<int>(0x1F05800);
-
-    private int* p_DAT_01a860ec => FhUtil.ptr_at<int>(0x16860EC);
-    private int* p_DAT_01a860f0 => FhUtil.ptr_at<int>(0x16860F0);
+    private int DAT_01f057f8 => FhUtil.get_at<int>(0x1F057F8);
+    private int DAT_01f057fc => FhUtil.get_at<int>(0x1F057FC);
+    private int* p_DAT_01340870_sphere_grid_layout_dat => FhUtil.ptr_at<int>(0x1340870);
 
 
-    private uint DAT_02305814 => FhUtil.get_at<uint>(0x01f05814);
-    private uint DAT_02305818 => FhUtil.get_at<uint>(0x01f05818);
-    private uint DAT_0230581c => FhUtil.get_at<uint>(0x01f0581c);
-    private uint DAT_02305820 => FhUtil.get_at<uint>(0x01f05820);
+    private int* p_DAT_01685f70 => FhUtil.ptr_at<int>(0x1685F70);
+    private int* p_DAT_01685f74 => FhUtil.ptr_at<int>(0x1685F74);
+    private int  DAT_01f05800 => FhUtil.get_at<int>(0x1F05800);
 
-    private short DAT_02305810 => FhUtil.get_at<short>(0x01f05810);
-    private short DAT_02305808 => FhUtil.get_at<short>(0x01f05808);
-    private uint  DAT_02305830 => FhUtil.get_at<uint>(0x01f05830);
-    private uint  DAT_0230580c => FhUtil.get_at<uint>(0x01f0580c);
-    private short DAT_02305804 => FhUtil.get_at<short>(0x01f05804);
+    private int* p_DAT_016860ec => FhUtil.ptr_at<int>(0x16860EC);
+    private int* p_DAT_016860f0 => FhUtil.ptr_at<int>(0x16860F0);
+
+
+    private uint DAT_01f05814 => FhUtil.get_at<uint>(0x01f05814);
+    private uint DAT_01f05818 => FhUtil.get_at<uint>(0x01f05818);
+    private uint DAT_01f0581c => FhUtil.get_at<uint>(0x01f0581c);
+    private uint DAT_01f05820 => FhUtil.get_at<uint>(0x01f05820);
+
+    private short DAT_01f05810 => FhUtil.get_at<short>(0x01f05810);
+    private short DAT_01f05808 => FhUtil.get_at<short>(0x01f05808);
+    private uint  DAT_01f05830 => FhUtil.get_at<uint>(0x01f05830);
+    private uint  DAT_01f0580c => FhUtil.get_at<uint>(0x01f0580c);
+    private short DAT_01f05804 => FhUtil.get_at<short>(0x01f05804);
 
 
 
@@ -1030,7 +994,7 @@ public unsafe class CustomCharacterModule : FhModule {
     private Vector4* asmreg_ACC  => FhUtil.ptr_at<Vector4>(0x88F790);
 
 
-    private SphereGridLinkPoint* SphereGridLinkPoint_ARRAY_01693160 => FhUtil.ptr_at<SphereGridLinkPoint>(0x1293160);
+    private SphereGridLinkPoint* SphereGridLinkPoint_ARRAY_01693160 => FhUtil.ptr_at<SphereGridLinkPoint>(0x12931A0);
 
 
     public struct FUN_00a59710_Struct {
@@ -1063,7 +1027,7 @@ public unsafe class CustomCharacterModule : FhModule {
                 //uVar2 = *(ushort*)(puVar6 + 4);
                 uVar2 = (ushort)entry.unknown2;
                 local_8 = lpamng->current_chr_id;
-                uVar4 = MsGetSaveItemNum.fnptr!(uVar2);
+                uVar4 = FhCall.MsGetSaveItemNum.fnptr!(uVar2);
                 if (uVar4 == 0) {
                     //*puVar6 = 1;
                     entry.unknown1 = 1;
@@ -1082,10 +1046,10 @@ public unsafe class CustomCharacterModule : FhModule {
                     }
                     if (local_28.ptr_sphere != (Sphere*)0x0) {
                         if (local_28.ptr_sphere->range == SphereRange.UNLIMITED) {
-                            FUN_00a59710.fnptr!((nint)FhUtil.ptr_at<nint>(0x649440), &local_28);
+                            FUN_00659710.fnptr!((nint)FhUtil.ptr_at<nint>(0x649440), &local_28);
                         }
                         else {
-                            FUN_00a59760.fnptr!(uVar1, (nint)FhUtil.ptr_at<nint>(0x649440), &local_28);
+                            FUN_00659760.fnptr!(uVar1, (nint)FhUtil.ptr_at<nint>(0x649440), &local_28);
                         }
                     }
                     if (local_28.status == 0) {
@@ -1108,41 +1072,41 @@ public unsafe class CustomCharacterModule : FhModule {
         ushort uVar2;
         SphereGridMenuData *pSVar3;
 
-        FUN_00a58ff0.fnptr!(0x0);
+        FUN_00658ff0.fnptr!(0x0);
         if ((lpamng->__0x115CD == 0) && (lpamng->__0x115B0 == 0)) {
-            FUN_00a58ec0.fnptr!();
+            FUN_00658ec0.fnptr!();
             if (lpamng->__0x115B0 == 0) {
                 if (lpamng->__0x115C4 == 0) {
                     lpamng->__0x115C4 = 1;
-                    FUN_00a48f20.fnptr!(6);
+                    FUN_00648f20.fnptr!(6);
                 }
                 uVar2 = lpamng->abmap_input[1];
                 if ((uVar2 & 0x20) != 0) {
-                    SndSepPlaySimple.fnptr!(0x80000001);
+                    FhCall.SndSepPlaySimple.fnptr!(0x80000001);
                     lpamng->__0x11666 = 0;
-                    FUN_00a48c20.fnptr!(6);
-                    FUN_00a48c20.fnptr!(1);
-                    FUN_00a48c20.fnptr!(2);
-                    FUN_00a48c20.fnptr!(3);
-                    FUN_00a48c20.fnptr!(4);
-                    FUN_00a48c20.fnptr!(5);
+                    FUN_00648c20.fnptr!(6);
+                    FUN_00648c20.fnptr!(1);
+                    FUN_00648c20.fnptr!(2);
+                    FUN_00648c20.fnptr!(3);
+                    FUN_00648c20.fnptr!(4);
+                    FUN_00648c20.fnptr!(5);
                     lpamng->__0x115C8 = 0;
-                    FUN_00a48e40.fnptr!(custom_party_infos[lpamng->current_chr_id].current_node_idx, 0x3e800000);
+                    FUN_00648e40.fnptr!(custom_party_infos[lpamng->current_chr_id].current_node_idx, 0x3e800000);
                     return;
                 }
                 if ((uVar2 & 0x40) != 0) {
-                    SndSepPlaySimple.fnptr!(0x80000001);
-                    FUN_00a48c20.fnptr!(6);
-                    FUN_00a48c20.fnptr!(1);
-                    FUN_00a48c20.fnptr!(2);
-                    FUN_00a48c20.fnptr!(3);
-                    FUN_00a48c20.fnptr!(4);
-                    FUN_00a48c20.fnptr!(5);
+                    FhCall.SndSepPlaySimple.fnptr!(0x80000001);
+                    FUN_00648c20.fnptr!(6);
+                    FUN_00648c20.fnptr!(1);
+                    FUN_00648c20.fnptr!(2);
+                    FUN_00648c20.fnptr!(3);
+                    FUN_00648c20.fnptr!(4);
+                    FUN_00648c20.fnptr!(5);
                     lpamng->__0x115C8 = 0;
                     pSVar3 = sphere_grid_menu_ptr;
                     *(byte*)((int)&sphere_grid_menu_ptr->menus[10].num_columns + 1) = 1;
                     //FUN_00a59860(0xb, FUN_00a56060);
-                    FUN_00a59860.fnptr!(0xb, FhUtil.ptr_at<nint>(0x656060));
+                    FUN_00659860.fnptr!(0xb, FhUtil.ptr_at<nint>(0x656060));
                     pbVar1 = &pSVar3->menus[0].__0x24;
                     *pbVar1 = (byte)(*pbVar1 | 0xc);
                     *(short*)&pSVar3->menus[0].__0x18 = 0;
@@ -1154,39 +1118,39 @@ public unsafe class CustomCharacterModule : FhModule {
                       ((sphere_grid_menu_ptr->menus[2].func1 == (void*)0x0 &&
                        (sphere_grid_menu_ptr->menus[4].func1 == (void*)0x0)))))) &&
                     (sphere_grid_menu_ptr->menus[5].func1 == (void*)0x0)) && ((uVar2 & 0x10) != 0)) {
-                    SndSepPlaySimple.fnptr!(0x80000001);
+                    FhCall.SndSepPlaySimple.fnptr!(0x80000001);
                     lpamng->__0x115C8 = (byte)(lpamng->__0x115C8 + 1);
                     if (5 < lpamng->__0x115C8) {
                         lpamng->__0x115C8 = 0;
                     }
                     switch (lpamng->__0x115C8) {
                         case 0:
-                            FUN_00a48c20.fnptr!(5);
-                            FUN_00a48f20.fnptr!(6);
+                            FUN_00648c20.fnptr!(5);
+                            FUN_00648f20.fnptr!(6);
                             return;
                         case 1:
                             *(byte*)((int)&sphere_grid_menu_ptr->menus[6].num_columns + 1) = 0;
-                            FUN_00a48f20.fnptr!(1);
+                            FUN_00648f20.fnptr!(1);
                             return;
                         case 2:
-                            FUN_00a5a2e0.fnptr!(3);
+                            FUN_0065a2e0.fnptr!(3);
                             *(byte*)((int)&sphere_grid_menu_ptr->menus[1].num_columns + 1) = 0;
-                            FUN_00a48f20.fnptr!(3);
+                            FUN_00648f20.fnptr!(3);
                             return;
                         case 3:
-                            FUN_00a5a2e0.fnptr!(2);
+                            FUN_0065a2e0.fnptr!(2);
                             *(byte*)((int)&sphere_grid_menu_ptr->menus[3].num_columns + 1) = 0;
-                            FUN_00a48f20.fnptr!(2);
+                            FUN_00648f20.fnptr!(2);
                             return;
                         case 4:
-                            FUN_00a5a2e0.fnptr!(4);
+                            FUN_0065a2e0.fnptr!(4);
                             *(byte*)((int)&sphere_grid_menu_ptr->menus[2].num_columns + 1) = 0;
-                            FUN_00a48f20.fnptr!(4);
+                            FUN_00648f20.fnptr!(4);
                             return;
                         case 5:
-                            FUN_00a5a2e0.fnptr!(5);
+                            FUN_0065a2e0.fnptr!(5);
                             *(byte*)((int)&sphere_grid_menu_ptr->menus[4].num_columns + 1) = 0;
-                            FUN_00a48f20.fnptr!(5);
+                            FUN_00648f20.fnptr!(5);
                             return;
                     }
                 }
@@ -1196,10 +1160,7 @@ public unsafe class CustomCharacterModule : FhModule {
     }
 
     int h_abmap_get_chr_point(int param_1) {
-        byte bVar1;
-
-        bVar1 = MsGetSavePlyJoined.fnptr!((byte)param_1);
-        if (bVar1 == 0) {
+        if (!FhXCall.MsGetSavePlyJoined.fnptr!((byte)param_1)) {
             return -1;
         }
         return custom_party_infos[param_1].current_node_idx;
@@ -1224,7 +1185,7 @@ public unsafe class CustomCharacterModule : FhModule {
         do {
             if ((0.0 < *pfVar5 != float.IsNaN(*pfVar5)) && (*(ushort*)(pfVar5 + 2) == plVar4->__0x1164E)) {
                 *pfVar5 = (fVar1 - fVar2) * (uStack_8 / 40.0f) + fVar3;
-                FUN_00a58080.fnptr!(iVar6);
+                FUN_00658080.fnptr!(iVar6);
                 plVar4 = lpamng;
             }
             iVar6 = iVar6 + 1;
@@ -1232,24 +1193,24 @@ public unsafe class CustomCharacterModule : FhModule {
             if (iVar6 == num_characters) pfVar5 = (float*)((int)lpamng + 0x112b8 + 0x3c);
         } while (iVar6 < num_characters+1);
         if ((plVar4->__0x11650 < 0x14) && (0x13 < plVar4->__0x11650 + 1)) {
-            FUN_00a5bb70.fnptr!();
+            FUN_0065bb70.fnptr!();
             eiAbmParaGet.fnptr!();
             *(short*)((int)&lpamng->nodes[lpamng->__0x1164E] + 6) = *(short*)(&lpamng->__0x1164C);
             lpamng->should_update_node = lpamng->__0x1164E;
             lpamng->should_update = 1;
             lpamng->link_points = SphereGridLinkPoint_ARRAY_01693160;
-            FUN_00a5a800.fnptr!();
+            FUN_0065a800.fnptr!();
             plVar4 = lpamng;
         }
         plVar4->__0x11650 += 1;
-        if (_DAT_01a8607e == 0) {
+        if (_DAT_0168607e == 0) {
             iVar6 = 0;
             pfVar5 = &custom_party_infos[0].pos_circle_radius;
             plVar4 = lpamng;
             do {
                 if ((0.0 < *pfVar5 != float.IsNaN(*pfVar5)) && (*(ushort*)(pfVar5 + 2) == plVar4->__0x1164E)) {
                     *pfVar5 = plVar4->moving_halo_target_width;
-                    FUN_00a58080.fnptr!(iVar6);
+                    FUN_00658080.fnptr!(iVar6);
                     plVar4 = lpamng;
                 }
                 iVar6 = iVar6 + 1;
@@ -1279,7 +1240,7 @@ public unsafe class CustomCharacterModule : FhModule {
             if (0x7f < lpamng->__0x115C6) {
                 lpamng->__0x115C6 = 0x80;
             }
-            if (_DAT_01a8607e == 0) {
+            if (_DAT_0168607e == 0) {
                 custom_party_infos[lpamng->moving_chr_id].pos_circle_radius = 0.0f;
                 lpamng->__0x1164C = 1;
                 lpamng->__0x115C6 = 0;
@@ -1296,19 +1257,19 @@ public unsafe class CustomCharacterModule : FhModule {
                 if (1.0 <= progress) {
                     plVar2->__0x1164C = 2;
                     lpamng->__0x1164D = 0;
-                    SndSepPlaySimple.fnptr!(0x80000070);
+                    FhCall.SndSepPlaySimple.fnptr!(0x80000070);
                     plVar2 = lpamng;
                     (lpamng->cam_desired_pos).X = local_18.X;
                     (plVar2->cam_desired_pos).Y = local_18.Y;
                     (plVar2->cam_desired_pos).Z = local_18.Z;
                     (plVar2->cam_desired_pos).W = local_18.W;
-                    pppCreateHeap.fnptr!(p_DAT_01a86034, p_DAT_016c1830, 0x7d000);
-                    FUN_00a5bad0.fnptr!(p_DAT_01a86060, 1, local_18.X, local_18.Y, 0, 0, 0, 0, 0.5f, 0.5f, 0.5f);
+                    pppCreateHeap.fnptr!(p_DAT_01686034, p_DAT_012c1830, 0x7d000);
+                    FUN_0065bad0.fnptr!(p_DAT_01686060, 1, local_18.X, local_18.Y, 0, 0, 0, 0, 0.5f, 0.5f, 0.5f);
                     custom_party_infos[lpamng->moving_chr_id].current_node_idx = lpamng->move_last_target_node_idx;
-                    FUN_00a5a990.fnptr!(lpamng->moving_chr_id);
-                    FUN_00a58080.fnptr!(lpamng->moving_chr_id);
+                    FUN_0065a990.fnptr!(lpamng->moving_chr_id);
+                    FUN_00658080.fnptr!(lpamng->moving_chr_id);
                     lpamng->__0x115C7 = 1;
-                    FUN_00a5b030.fnptr!();
+                    FUN_0065b030.fnptr!();
                     return;
                 }
                 FFXVu0InterVectorXYZ.fnptr!(&local_28, &local_18, &lpamng->move_prev_node_pos, progress);
@@ -1322,7 +1283,7 @@ public unsafe class CustomCharacterModule : FhModule {
                 if (0x7f < lpamng->__0x115C6) {
                     lpamng->__0x115C6 = 0x80;
                 }
-                if (_DAT_01a8607e == 0) {
+                if (_DAT_0168607e == 0) {
                     lpamng->__0x115C6 = 0x80;
                     lpamng->__0x115A8 = lpamng->__0x115B0;
                     lpamng->__0x115B0 = 0;
@@ -1343,7 +1304,7 @@ public unsafe class CustomCharacterModule : FhModule {
 
         _lpamng = lpamng;
         current_node = custom_party_infos[chr_id].current_node_idx;
-        SndSepPlaySimple.fnptr!(0x80000070);
+        FhCall.SndSepPlaySimple.fnptr!(0x80000070);
         lpamng->__0x1164C = 0;
         lpamng->__0x1164D = 0;
         node_x = _lpamng->nodes[current_node].x;
@@ -1355,8 +1316,8 @@ public unsafe class CustomCharacterModule : FhModule {
         lpamng->moving_progress = 0;
         lpamng->move_last_target_node_idx = node_idx;
         lpamng->moving_chr_id = (byte)chr_id;
-        pppCreateHeap.fnptr!(p_DAT_01a86034, p_DAT_016c1830, 0x7d000);
-        FUN_00a5bad0.fnptr!(p_DAT_01a86060, 2, _lpamng->nodes[current_node].x,
+        pppCreateHeap.fnptr!(p_DAT_01686034, p_DAT_012c1830, 0x7d000);
+        FUN_0065bad0.fnptr!(p_DAT_01686060, 2, _lpamng->nodes[current_node].x,
                      _lpamng->nodes[current_node].y, 0, 0, 0, 0, 0.5f, 0.5f, 0.5f);
         if (lpamng->__0x115B4 == 0) {
             lpamng->__0x115B4 = lpamng->__0x115AC;
@@ -1666,7 +1627,7 @@ public unsafe class CustomCharacterModule : FhModule {
                                     local_118[1] = (pSVar5->pos).Y - ((pSVar5->pos).X - local_118[0]);
                                 }
                                 local_118[2] = 1.0f;
-                                FUN_00642a80.fnptr!(local_128, local_118);
+                                FUN_002428d0.fnptr!(local_128, local_118);
                                 iVar6 = local_128[0] + 0x100;
                                 iVar4 = local_128[1] + 0xd0;
                                 if (pSVar5->__0x46 != 0) {
@@ -1797,7 +1758,7 @@ public unsafe class CustomCharacterModule : FhModule {
                                     local_240.floats2[2] = local_264;
                                 }
                                 graphicDrawUIAbmapElement.fnptr!(&local_240, local_108, 5);
-                                FUN_008b70e0.fnptr!((nint)pSVar5->chr_name, &local_28c, &local_294);
+                                FUN_004b7130.fnptr!((nint)pSVar5->chr_name, &local_28c, &local_294);
                                 bVar2 = (byte)(pSVar5->__0x4E & 3);
                                 if ((bVar2 == 1) || (bVar2 == 2)) {
                                     x = ((float)local_268 - local_28c) * 0.5f;
@@ -1810,7 +1771,7 @@ public unsafe class CustomCharacterModule : FhModule {
                                 plVar1 = lpamng;
                                 iVar4 = pSVar5->__0x4C + local_288 + local_278;
                                 iVar6 = (int)((lpamng->zoom_vector).Y * 100.0);
-                                *p_ppvCurPrimp = FUN_008e8fb0.fnptr!(*p_ppvCurPrimp + 0x10, 0xffffffff, pSVar5->chr_name,
+                                *p_ppvCurPrimp = FUN_004e8fb0.fnptr!(*p_ppvCurPrimp + 0x10, 0xffffffff, pSVar5->chr_name,
                                                            local_27c + local_268, iVar4, 0, 0, 0x80, 0x80, 0x80,
                                                            plVar1->__0x115B9, iVar6);
                                 fVar9 = 0f;
@@ -1872,7 +1833,7 @@ public unsafe class CustomCharacterModule : FhModule {
         Matrix4x4 local_58 = new();
 
         plVar3 = lpamng;
-        iVar4 = DAT_023057fc;
+        iVar4 = DAT_01f057fc;
         local_150.__0x0 = 4;
         local_150.rgba = p_DAT_00c86580[lpamng->current_chr_id]; // Extend with custom color for Seymour
         //local_150.__0x18 = *(p_DAT_00c86580 + (uint)lpamng->current_chr_id * 4);
@@ -1891,7 +1852,7 @@ public unsafe class CustomCharacterModule : FhModule {
         local_150.__0xA = 0;
         local_150.__0x3C = 0;
         local_150.__0x38 = 0;
-        local_150.__0x4 = (int)p_DAT_01740830_sphere_grid_layout_dat;
+        local_150.__0x4 = (int)p_DAT_01340870_sphere_grid_layout_dat;
         local_150.__0xC = 0;
         local_150.__0x10 = 0;
         local_150.__0x14 = 0;
@@ -1925,7 +1886,7 @@ public unsafe class CustomCharacterModule : FhModule {
         local_58.M22 = local_58.M11;
         local_58.M33 = local_58.M11;
         cdc_FFXVu0MulMatrix.fnptr!(&local_d8, &lpamng->__0x113E0, &local_58);
-        FUN_00a657c0.fnptr!(iVar4, &local_150, 4, &lpamng->__0x116A4);
+        FUN_006657c0.fnptr!(iVar4, &local_150, 4, &lpamng->__0x116A4);
         sVar1 = lpamng->__0x11698;
         uVar2 = custom_party_infos[lpamng->current_chr_id].current_node_idx;
         local_150.__0x8 = 0x48;
@@ -1937,7 +1898,7 @@ public unsafe class CustomCharacterModule : FhModule {
         local_150.__0xA = 0;
         local_150.__0x3C = 0;
         local_150.__0x38 = 0;
-        local_150.__0x4 = (int)p_DAT_01740830_sphere_grid_layout_dat;
+        local_150.__0x4 = (int)p_DAT_01340870_sphere_grid_layout_dat;
         local_150.__0xC = 0;
         local_150.__0x10 = 0;
         local_150.__0x14 = 0;
@@ -2009,7 +1970,7 @@ public unsafe class CustomCharacterModule : FhModule {
                 local_58.M22 = local_58.M11;
                 local_58.M33 = local_58.M11;
                 cdc_FFXVu0MulMatrix.fnptr!(&local_d8, &lpamng->__0x113E0, &local_58);
-                FUN_00a657c0.fnptr!(DAT_023057f8, &local_150, 4, &lpamng->__0x116A4);
+                FUN_006657c0.fnptr!(DAT_01f057f8, &local_150, 4, &lpamng->__0x116A4);
             }
             uVar5 = uVar5 + 1;
             //pfVar6 = pfVar6 + 0x14;
@@ -2026,7 +1987,7 @@ public unsafe class CustomCharacterModule : FhModule {
         short pSVar4;
         short pSVar5;
         LpAbilityMapEngine *plVar6;
-        byte joined;
+        bool joined;
         FhLangId LVar7;
         //undefined3 extraout_var;
         uint uVar8;
@@ -2037,18 +1998,18 @@ public unsafe class CustomCharacterModule : FhModule {
         int chr_id_00;
         SphereGridMenuData *menuData;
 
-        *p_DAT_01a85f70 = 0;
-        LVar7 = TOGetFFXLang.fnptr!();
+        *p_DAT_01685f70 = 0;
+        LVar7 = FhXCall.TOGetFFXLang.fnptr!();
         /* Japanese, Korean, Chinese, or Debug */
         if ((LVar7 == FhLangId.Japanese) || ((8 < (int)LVar7 && ((int)LVar7 < 0xc)))) {
-            *p_DAT_01a85f74 = 1;
+            *p_DAT_01685f74 = 1;
         }
         else {
-            *p_DAT_01a85f74 = 0;
+            *p_DAT_01685f74 = 0;
         }
-        FUN_00a572e0.fnptr!();
-        FUN_00a57620.fnptr!();
-        FUN_00a45570.fnptr!();
+        FUN_006572e0.fnptr!();
+        FUN_00657620.fnptr!();
+        FUN_00645570.fnptr!();
         TOMenuTransFacePlyTex.fnptr!();
 
         // Calculate node activation indicator positions
@@ -2079,14 +2040,14 @@ public unsafe class CustomCharacterModule : FhModule {
         chr_id = 0;
         lpamng->available_indicators = 0;
         do {
-            joined = MsGetSavePlyJoined.fnptr!((byte)chr_id);
-            if (joined == 1) {
-                lpamng->available_indicators = (byte)(lpamng->available_indicators | joined << ((byte)chr_id & 0x1f));
-                FUN_00a57f80.fnptr!(chr_id, 0, 0x40000000, 0x80404040, 0x80404040, 0x80808080);
+            joined = FhXCall.MsGetSavePlyJoined.fnptr!((byte)chr_id);
+            if (joined) {
+                lpamng->available_indicators.set_bit((int)chr_id, joined);
+                FUN_00657f80.fnptr!(chr_id, 0, 0x40000000, 0x80404040, 0x80404040, 0x80808080);
             }
             chr_id = chr_id + 1;
         } while ((int)chr_id < num_characters);
-        FUN_00a49590.fnptr!();
+        FUN_00649590.fnptr!();
         chr_id_00 = 0;
         //iVar11 = 0;
         plVar10 = lpamng;
@@ -2127,7 +2088,7 @@ public unsafe class CustomCharacterModule : FhModule {
                                   [(int)lpamng->nodes
                                    [chr_info.current_node_idx].
                                    node_type].width >> 1) + 3.0f;
-                FUN_00a58080.fnptr!(chr_id_00);
+                FUN_00658080.fnptr!(chr_id_00);
                 plVar10 = lpamng;
             }
             //iVar11 = iVar11 + 0x50;
@@ -2155,10 +2116,10 @@ public unsafe class CustomCharacterModule : FhModule {
         (plVar10->cam_desired_pos).Z = (plVar10->__0x112B8).Z;
         (plVar10->cam_desired_pos).W = (plVar10->__0x112B8).W;
         lpamng->link_points = SphereGridLinkPoint_ARRAY_01693160;
-        FUN_00a5a800.fnptr!();
-        FUN_00a57120.fnptr!();
-        FUN_00a5b030.fnptr!();
-        pppInitEnv.fnptr!(p_DAT_01a86034, DAT_02305800, p_DAT_016c1830, 0x7d000);
+        FUN_0065a800.fnptr!();
+        FUN_00657120.fnptr!();
+        FUN_0065b030.fnptr!();
+        pppInitEnv.fnptr!(p_DAT_01686034, DAT_01f05800, p_DAT_012c1830, 0x7d000);
         menuData = sphere_grid_menu_ptr;
         menuData->menus[0].pos2.x = 0x30;
         menuData->menus[0].pos2.y = 0x23;
@@ -2195,7 +2156,7 @@ public unsafe class CustomCharacterModule : FhModule {
         menuData->menus[7].num_columns = 1;
         menuData->menus[7].func2 = FhUtil.ptr_at<nint>(0x64F930); // FUN_00a4f930
         menuData->menus[7].func3 = FhUtil.ptr_at<nint>(0x6570A0); // FUN_00a570a0
-        if (*p_DAT_01a85f74 == 0) {
+        if (*p_DAT_01685f74 == 0) {
             menuData->menus[7].num_entries = 0;
             menuData->menus[7].__0x20 = 10;
         }
@@ -2255,7 +2216,7 @@ public unsafe class CustomCharacterModule : FhModule {
         menuData->menus[8].__0x24 = 0;
         menuData->menus[8].is_full = false;
         menuData->menus[8].func1 = (void*)0;
-        if (*p_DAT_01a85f74 == 0) {
+        if (*p_DAT_01685f74 == 0) {
             menuData->menus[8].pos2.w = 0xb0;
             menuData->menus[8].pos2.h = 0x50;
             menuData->menus[8].pos1.w = 0xb0;
@@ -2276,7 +2237,7 @@ public unsafe class CustomCharacterModule : FhModule {
             menuData->menus[8].max_lines1 = 4;
         }
         menuData->menus[8].num_entries = 0;
-        FUN_00a45fd0.fnptr!(8, 3);
+        FUN_00645fd0.fnptr!(8, 3);
         menuData = sphere_grid_menu_ptr;
         *(uint*)&sphere_grid_menu_ptr->menus[6].pos2 = 0x01640030;
         *(uint*)&menuData->menus[6].pos1 = 0x01640030;
@@ -2290,7 +2251,7 @@ public unsafe class CustomCharacterModule : FhModule {
         menuData->menus[6].is_full = false;
         menuData->menus[6].func3 = (void*)0x0;
         menuData->menus[6].func1 = (void*)0;
-        if (*p_DAT_01a85f74 == 0) {
+        if (*p_DAT_01685f74 == 0) {
             menuData->menus[6].pos2.w = 0xb0;
             menuData->menus[6].pos2.h = 0x14;
             menuData->menus[6].pos1.w = 0xb0;
@@ -2338,7 +2299,7 @@ public unsafe class CustomCharacterModule : FhModule {
         menuData->menus[1].is_full = false;
         menuData->menus[1].func3 = (void*)0x0;
         menuData->menus[1].func1 = (void*)0;
-        if (*p_DAT_01a85f74 == 0) {
+        if (*p_DAT_01685f74 == 0) {
             *(uint*)&menuData->menus[1].pos2 = 0x01140088;
             menuData->menus[1].pos2.w = 0xf0;
             menuData->menus[1].pos2.h = 100;
@@ -2543,7 +2504,7 @@ public unsafe class CustomCharacterModule : FhModule {
         menuData->menus[3].is_full = false;
         menuData->menus[3].func3 = (void*)0x0;
         menuData->menus[3].func1 = (void*)0;
-        if (*p_DAT_01a85f74 == 0) {
+        if (*p_DAT_01685f74 == 0) {
             *(uint*)&menuData->menus[3].pos2 = 0x00d80048;
             menuData->menus[3].pos2.w = 0x170;
             menuData->menus[3].pos2.h = 0xa0;
@@ -2565,7 +2526,7 @@ public unsafe class CustomCharacterModule : FhModule {
             menuData->menus[3].something1 = 0x14;
             menuData->menus[3].max_lines1 = 8;
         }
-        FUN_00a459e0.fnptr!(3, 0x40);
+        FUN_006459e0.fnptr!(3, 0x40);
         menuData = sphere_grid_menu_ptr;
         menuData->menus[2].num_entries = 0;
         menuData->menus[2].__0x20 = 0x20;
@@ -2576,7 +2537,7 @@ public unsafe class CustomCharacterModule : FhModule {
         menuData->menus[2].is_full = false;
         menuData->menus[2].func3 = (void*)0x0;
         menuData->menus[2].func1 = (void*)0;
-        if (*p_DAT_01a85f74 == 0) {
+        if (*p_DAT_01685f74 == 0) {
             *(uint*)&menuData->menus[2].pos2 = 0x00d80048;
             menuData->menus[2].pos2.w = 0x170;
             menuData->menus[2].pos2.h = 0xa0;
@@ -2602,7 +2563,7 @@ public unsafe class CustomCharacterModule : FhModule {
             menuData->menus[2].max_lines1 = 6;
             menuData->menus[2].num_columns = 4;
         }
-        FUN_00a459e0.fnptr!(2, 0x41);
+        FUN_006459e0.fnptr!(2, 0x41);
         menuData = sphere_grid_menu_ptr;
         menuData->menus[4].num_entries = 0;
         menuData->menus[4].__0x20 = 0x20;
@@ -2614,7 +2575,7 @@ public unsafe class CustomCharacterModule : FhModule {
         menuData->menus[4].is_full = false;
         menuData->menus[4].func3 = (void*)0x0;
         menuData->menus[4].func1 = (void*)0;
-        if (*p_DAT_01a85f74 == 0) {
+        if (*p_DAT_01685f74 == 0) {
             *(uint*)&menuData->menus[4].pos2 = 0x01000040;
             menuData->menus[4].pos2.w = 0x180;
             menuData->menus[4].pos2.h = 0x78;
@@ -2638,7 +2599,7 @@ public unsafe class CustomCharacterModule : FhModule {
             menuData->menus[4].something1 = 0x14;
             menuData->menus[4].max_lines1 = 6;
         }
-        FUN_00a459e0.fnptr!(4, 0x45);
+        FUN_006459e0.fnptr!(4, 0x45);
         menuData = sphere_grid_menu_ptr;
         menuData->menus[5].num_entries = 0;
         menuData->menus[5].__0x20 = 0x20;
@@ -2650,7 +2611,7 @@ public unsafe class CustomCharacterModule : FhModule {
         menuData->menus[5].is_full = false;
         menuData->menus[5].func3 = (void*)0x0;
         menuData->menus[5].func1 = (void*)0;
-        if (*p_DAT_01a85f74 == 0) {
+        if (*p_DAT_01685f74 == 0) {
             *(uint*)&menuData->menus[5].pos2 = 0x01140040;
             menuData->menus[5].pos2.w = 0x180;
             menuData->menus[5].pos2.h = 100;
@@ -2674,7 +2635,7 @@ public unsafe class CustomCharacterModule : FhModule {
             menuData->menus[5].something1 = 0x14;
             menuData->menus[5].max_lines1 = 5;
         }
-        FUN_00a459e0.fnptr!(5, 0x44);
+        FUN_006459e0.fnptr!(5, 0x44);
         menuData = sphere_grid_menu_ptr;
         *(uint*)&sphere_grid_menu_ptr->menus[9].pos2 = 0x00cd0030;
         *(uint*)&menuData->menus[9].pos1 = 0x00cd0030;
@@ -2688,7 +2649,7 @@ public unsafe class CustomCharacterModule : FhModule {
         menuData->menus[9].is_full = false;
         menuData->menus[9].func3 = (void*)0x0;
         menuData->menus[9].func1 = (void*)0;
-        if (*p_DAT_01a85f74 == 0) {
+        if (*p_DAT_01685f74 == 0) {
             menuData->menus[9].pos2.w = 0x90;
             menuData->menus[9].pos2.h = 0x14;
             menuData->menus[9].pos1.w = 0x90;
@@ -2738,7 +2699,7 @@ public unsafe class CustomCharacterModule : FhModule {
         menuData->menus[10].is_full = false;
         menuData->menus[10].func3 = (void*)0x0;
         menuData->menus[10].func1 = (void*)0;
-        if (*p_DAT_01a85f74 == 0) {
+        if (*p_DAT_01685f74 == 0) {
             menuData->menus[10].pos2.w = 0x90;
             menuData->menus[10].pos2.h = 0x14;
             menuData->menus[10].pos1.w = 0x90;
@@ -2830,8 +2791,8 @@ public unsafe class CustomCharacterModule : FhModule {
         graphicAbmapCreate.fnptr!(*(void**)&lpamng->__0x116A4);
         graphicDeActivateLoadingScreen.fnptr!();
         graphicSetFlipVsnc.fnptr!(2);
-        *p_DAT_01a860ec = (int)user_malloc.fnptr!(0x200);
-        *p_DAT_01a860f0 = (int)user_malloc.fnptr!(0x200);
+        *p_DAT_016860ec = (int)user_malloc.fnptr!(0x200);
+        *p_DAT_016860f0 = (int)user_malloc.fnptr!(0x200);
         return;
     }
 
@@ -2841,7 +2802,7 @@ public unsafe class CustomCharacterModule : FhModule {
 
         pSVar1 = sphere_grid_menu_ptr;
         if (param_4 != 0) {
-            bVar2 = *p_DAT_01a85f74 == 0;
+            bVar2 = *p_DAT_01685f74 == 0;
             *(byte*)((int)&sphere_grid_menu_ptr->menus[8].num_columns + 1) = 1;
             *(int*)&pSVar1->menus[8].pos3 = 0x01640030;
             pSVar1->menus[8].__0x32 = 0;
@@ -2854,12 +2815,12 @@ public unsafe class CustomCharacterModule : FhModule {
                 pSVar1->menus[8].pos3.w = 0x90;
                 pSVar1->menus[8].pos3.h = 0x14;
             }
-            FUN_00a5b980.fnptr!((uint)lpamng->current_chr_id,
+            FUN_0065b980.fnptr!((uint)lpamng->current_chr_id,
                          custom_party_infos[lpamng->current_chr_id].current_node_idx,
                          (uint)*(ushort*)(param_2 + 8));
             return;
         }
-        FUN_00a59950.fnptr!();
+        FUN_00659950.fnptr!();
         return;
     }
 
@@ -2870,15 +2831,15 @@ public unsafe class CustomCharacterModule : FhModule {
         int iVar4;
         byte *pbVar5;
 
-        FUN_00a5b930.fnptr!();
+        FUN_0065b930.fnptr!();
         plVar3 = lpamng;
         if (param_3 == 0) {
-            SndSepPlaySimple.fnptr!(0x80000052);
-            FUN_00786fb0.fnptr!(lpamng->current_chr_id, lpamng->slv_queued);
+            FhCall.SndSepPlaySimple.fnptr!(0x80000052);
+            FUN_00386ef0.fnptr!(lpamng->current_chr_id, lpamng->slv_queued);
         }
         else if (param_3 == 1) {
             iVar4 = (int)lpamng->link_count;
-            SndSepPlaySimple.fnptr!(0x80000004);
+            FhCall.SndSepPlaySimple.fnptr!(0x80000004);
             if (iVar4 != 0) {
                 pbVar5 = &plVar3->links[0].activated_by;
                 do {
@@ -2893,11 +2854,11 @@ public unsafe class CustomCharacterModule : FhModule {
             plVar3 = lpamng;
             bVar1 = lpamng->moving_chr_id;
             custom_party_infos[bVar1].current_node_idx = lpamng->move_start_node_idx;
-            FUN_00a5a990.fnptr!(lpamng->moving_chr_id);
-            FUN_00a58080.fnptr!(lpamng->moving_chr_id);
+            FUN_0065a990.fnptr!(lpamng->moving_chr_id);
+            FUN_00658080.fnptr!(lpamng->moving_chr_id);
             lpamng->__0x115C7 = 1;
-            FUN_00a5b030.fnptr!();
-            FUN_00a48d70.fnptr!(custom_party_infos[bVar1].current_node_idx, 0.5f);
+            FUN_0065b030.fnptr!();
+            FUN_00648d70.fnptr!(custom_party_infos[bVar1].current_node_idx, 0.5f);
             if (lpamng->__0x115B0 == 0) {
                 lpamng->__0x115B0 = lpamng->__0x115A8;
                 lpamng->__0x115A8 = (int)FhUtil.ptr_at<nint>(0x659E80); // FUN_00a59e80;
@@ -2933,11 +2894,11 @@ public unsafe class CustomCharacterModule : FhModule {
 
         width_sum = 0;
         cur_char = *name;
-        *p_DAT_018663a8 = 0;
+        *p_DAT_014663e8 = 0;
         while (cur_char != 0x0) {
-            name = FUN_008b7bb0.fnptr!(name, 0, &char_width, param_2);
+            name = FUN_004b7c00.fnptr!(name, 0, &char_width, param_2);
             width_sum = (int)(width_sum + char_width);
-            *p_DAT_018663a8 = *p_DAT_018663a8 + 1;
+            *p_DAT_014663e8 = *p_DAT_014663e8 + 1;
             cur_char = *name;
         }
         return width_sum;
@@ -2968,7 +2929,7 @@ public unsafe class CustomCharacterModule : FhModule {
         chr_info->c = param_6;
         chr_info->__0x40 = param_3;
         if ((int)chr_id < num_characters) {
-            chr_name = TOGetSaveChrName.fnptr!(chr_id);
+            chr_name = FhXCall.TOGetSaveChrName.fnptr!((int)chr_id);
             chr_info->chr_name = chr_name;
             //TOGetEasyMesWFontLInterModeChrName(chr_name, 0x1);
             //x = (float)name_width;
@@ -2999,18 +2960,18 @@ public unsafe class CustomCharacterModule : FhModule {
             chr_info = &custom_party_infos[chr_id];
         }
         uVar1 = (ushort)(chr_info->__0x4E * 0x4000 + 0x2000);
-        FUN_00a47c60.fnptr!(chr_info);
+        FUN_00647c60.fnptr!(chr_info);
         (chr_info->label_pos).X =
              eff_sin_t[(int)(uVar1 + 0x4000) >> 4 & 0xfff] * chr_info->pos_circle_radius +
              (chr_info->pos).X;
         (chr_info->label_pos).Y = (chr_info->pos).Y - eff_sin_t[uVar1 >> 4] * chr_info->pos_circle_radius;
         (chr_info->label_pos).Z = 0.0f;
         (chr_info->label_pos).W = 1.0f;
-        uVar2 = DAT_02305814;
-        uVar3 = DAT_02305818;
+        uVar2 = DAT_01f05814;
+        uVar3 = DAT_01f05818;
         if ((chr_info->__0x4E & 4) == 0) {
-            uVar2 = DAT_0230581c;
-            uVar3 = DAT_02305820;
+            uVar2 = DAT_01f0581c;
+            uVar3 = DAT_01f05820;
         }
         pos_y = (short)uVar2;
         pos_x = (short)uVar3;
@@ -3020,29 +2981,29 @@ public unsafe class CustomCharacterModule : FhModule {
                 /* Topright */
                 chr_info->__0x48 = (short)-pos_y;
                 chr_info->__0x46 = pos_x;
-                chr_info->__0x4A = DAT_02305810;
-                chr_info->__0x4C = DAT_02305808;
+                chr_info->__0x4A = DAT_01f05810;
+                chr_info->__0x4C = DAT_01f05808;
                 return;
             case 1:
                 /* Topleft */
                 chr_info->__0x48 = (short)-pos_y;
                 chr_info->__0x46 = (short)-pos_x;
-                chr_info->__0x4A = (short)-((short)DAT_02305830 + (short)DAT_0230580c);
-                chr_info->__0x4C = DAT_02305808;
+                chr_info->__0x4A = (short)-((short)DAT_01f05830 + (short)DAT_01f0580c);
+                chr_info->__0x4C = DAT_01f05808;
                 return;
             case 2:
                 /* Bottomleft */
                 chr_info->__0x48 = pos_y;
                 chr_info->__0x46 = (short)-pos_x;
-                chr_info->__0x4A = (short)-((short)DAT_02305830 + (short)DAT_0230580c);
-                chr_info->__0x4C = DAT_02305804;
+                chr_info->__0x4A = (short)-((short)DAT_01f05830 + (short)DAT_01f0580c);
+                chr_info->__0x4C = DAT_01f05804;
                 return;
             case 3:
                 /* Bottomright */
                 chr_info->__0x46 = pos_x;
                 chr_info->__0x48 = pos_y;
-                chr_info->__0x4A = DAT_02305810;
-                chr_info->__0x4C = DAT_02305804;
+                chr_info->__0x4A = DAT_01f05810;
+                chr_info->__0x4C = DAT_01f05804;
                 return;
         }
         return;
@@ -3057,10 +3018,10 @@ public unsafe class CustomCharacterModule : FhModule {
         if ((lpamng->abmap_input[3] & 4) == 0) {
             if ((lpamng->abmap_input[3] & 8) == 0) goto LAB_00a58fdb;
             lpamng->__0x115BE = 2;
-            FUN_008aaec0.fnptr!();
+            FUN_004aaf10.fnptr!();
         }
         else {
-            FUN_008aaf50.fnptr!();
+            FUN_004aafa0.fnptr!();
             lpamng->__0x115BE = 1;
         }
         lpamng->__0x115BF = 0;
@@ -3073,17 +3034,17 @@ public unsafe class CustomCharacterModule : FhModule {
         else {
             lpamng->should_update = 1;
             lpamng->should_update_node = -1;
-            SndSepPlaySimple.fnptr!(0x80000004);
+            FhCall.SndSepPlaySimple.fnptr!(0x80000004);
         }
-        FUN_00a48d70.fnptr!(custom_party_infos[lpamng->current_chr_id].current_node_idx, 0.25f);
+        FUN_00648d70.fnptr!(custom_party_infos[lpamng->current_chr_id].current_node_idx, 0.25f);
         if (lpamng->__0x115B0 == 0) {
             lpamng->__0x115B0 = lpamng->__0x115A8;
             lpamng->__0x115A8 = (int)FhUtil.ptr_at<nint>(0x659E80); // FUN_00a59e80;
         }
-        FUN_00a47210.fnptr!();
-        FUN_00a5aca0.fnptr!();
+        FUN_00647210.fnptr!();
+        FUN_0065aca0.fnptr!();
     LAB_00a58fdb:
-        FUN_00a5b030.fnptr!();
+        FUN_0065b030.fnptr!();
         return;
     }
 
@@ -3101,7 +3062,7 @@ public unsafe class CustomCharacterModule : FhModule {
         if (0 < sphere_grid_menu_ptr->menus[8].num_entries) {
             piVar5 = &sphere_grid_menu_ptr->menus[8].entries[0].unknown1;
             do {
-                iVar3 = FUN_00a49310.fnptr!(lpamng->current_chr_id, uVar1, (uint)(piVar5[1] & 0xffff));
+                iVar3 = FUN_00649310.fnptr!(lpamng->current_chr_id, uVar1, (uint)(piVar5[1] & 0xffff));
                 *(bool*)piVar5 = iVar3 == 0;
                 iVar4 = iVar4 + 1;
                 piVar5 = piVar5 + 3;
@@ -3249,14 +3210,14 @@ public unsafe class CustomCharacterModule : FhModule {
             local_58.Y = (float)lpamng->nodes[uVar3].y;
             local_58.Z = 0.0f;
             local_58.W = 1.0f;
-            FUN_00a563b0.fnptr!(&pSVar7->pos, &lpamng->move_prev_node_pos, &local_18, &local_58,
+            FUN_006563b0.fnptr!(&pSVar7->pos, &lpamng->move_prev_node_pos, &local_18, &local_58,
                          lpamng->moving_progress);
         }
         pSVar7->pos_circle_radius =
              (lpamng->moving_halo_target_width - lpamng->moving_halo_start_width) *
              lpamng->moving_progress + lpamng->moving_halo_start_width;
         lpamng->__0x115C7 = 1;
-        FUN_00a5b030.fnptr!();
+        FUN_0065b030.fnptr!();
         return;
     }
 
@@ -3279,7 +3240,7 @@ public unsafe class CustomCharacterModule : FhModule {
             iVar5 = 0;
             do {
                 (&custom_party_infos[0].__0x4E)[iVar5] = 0;
-                FUN_00a58080.fnptr!(chr_id);
+                FUN_00658080.fnptr!(chr_id);
                 iVar5 = iVar5 + 0x50;
                 chr_id = chr_id + 1;
             //} while (iVar5 < 0x230);
@@ -3289,21 +3250,21 @@ public unsafe class CustomCharacterModule : FhModule {
             pfVar4 = local_78;
             do {
                 pSVar3 = &custom_party_infos[(int)uVar2];
-                FUN_00a482d0.fnptr!(pSVar3, pfVar4);
+                FUN_006482d0.fnptr!(pSVar3, pfVar4);
                 do {
                     iVar5 = 0;
                     pfVar6 = local_78;
                     while (true) {
                         if (local_7c <= iVar5) goto LAB_00a5a56c;
-                        bVar1 = FUN_00a49270.fnptr!(pfVar4, pfVar6);
+                        bVar1 = FUN_00649270.fnptr!(pfVar4, pfVar6);
                         //if (CONCAT31(extraout_var, bVar1) != 0) break;
                         if (bVar1) break;
                         iVar5 = iVar5 + 1;
                         pfVar6 = pfVar6 + 1;
                     }
                     pSVar3->__0x4E = (byte)(pSVar3->__0x4E + 1);
-                    FUN_00a58080.fnptr!((int)uVar2);
-                    FUN_00a482d0.fnptr!(pSVar3, pfVar4);
+                    FUN_00658080.fnptr!((int)uVar2);
+                    FUN_006482d0.fnptr!(pSVar3, pfVar4);
                 } while (pSVar3->__0x4E < num_characters);
             LAB_00a5a56c:
                 local_7c = local_7c + 1;
@@ -3322,13 +3283,13 @@ public unsafe class CustomCharacterModule : FhModule {
                         if ((num_characters - 1) < iVar5) goto LAB_00a5a606;
                         if ((local_80 != iVar5) &&
                         //   (bVar1 = FUN_00a49270(pfVar4, pfVar6), CONCAT31(extraout_var_00, bVar1) != 0)) break;
-                             FUN_00a49270.fnptr!(pfVar4, pfVar6)) break;
+                             FUN_00649270.fnptr!(pfVar4, pfVar6)) break;
                         iVar5 = iVar5 + 1;
                         pfVar6 = pfVar6 + 1;
                     }
                     pSVar3->__0x4E = (byte)(pSVar3->__0x4E + 1);
-                    FUN_00a58080.fnptr!((int)uVar2);
-                    FUN_00a482d0.fnptr!(pSVar3, pfVar4);
+                    FUN_00658080.fnptr!((int)uVar2);
+                    FUN_006482d0.fnptr!(pSVar3, pfVar4);
                 } while (pSVar3->__0x4E < num_characters);
             LAB_00a5a606:
                 local_80 = local_80 + 1;
@@ -3380,7 +3341,7 @@ public unsafe class CustomCharacterModule : FhModule {
         (_lpamng->__0x11560).Z = Vector4f_ARRAY_00c86010[chr_id].Z;
         (_lpamng->__0x11560).W = Vector4f_ARRAY_00c86010[chr_id].W;
         (lpamng->__0x11520).W = lpamng->__0x115A0 + lpamng->__0x115A0;
-        FUN_00a47440.fnptr!();
+        FUN_00647440.fnptr!();
         return;
     }
 
@@ -3396,8 +3357,8 @@ public unsafe class CustomCharacterModule : FhModule {
         lpamng->__0x115A8 = (int)FhUtil.ptr_at<nint>(0x644EF0); // FUN_00a44ef0
         lpamng->__0x115AC = (int)FhUtil.ptr_at<nint>(0x645440); // FUN_00a45440
         bVar6 = lpamng->current_chr_id;
-        uVar2 = FUN_007854a0.fnptr!(bVar6);
-        FUN_00a474d0.fnptr!(uVar1, uVar2, bVar6);
+        uVar2 = FUN_007853e0.fnptr!(bVar6);
+        FUN_006474d0.fnptr!(uVar1, uVar2, bVar6);
         iVar5 = lpamng->node_count;
         if (iVar5 != 0) {
             pbVar3 = (byte*)&lpamng->nodes[0].properties;
@@ -3409,7 +3370,7 @@ public unsafe class CustomCharacterModule : FhModule {
                 pbVar3 = pbVar3 + 0x28;
             } while (iVar5 != 0);
         }
-        uVar4 = FUN_007854a0.fnptr!(lpamng->current_chr_id);
+        uVar4 = FUN_007853e0.fnptr!(lpamng->current_chr_id);
         iVar5 = lpamng->node_count;
         if (iVar5 != 0) {
             pbVar3 = (byte*)&lpamng->nodes[0].properties;
@@ -3425,7 +3386,7 @@ public unsafe class CustomCharacterModule : FhModule {
         lpamng->__0x116A0 = 0;
         lpamng->__0x1169C = 0;
         lpamng->slv_queued = 0;
-        FUN_00a48d70.fnptr!(uVar1, 0.25f);
+        FUN_00648d70.fnptr!(uVar1, 0.25f);
         if (lpamng->__0x115B0 != 0) {
             lpamng->__0x115C3 = 1;
             return;
@@ -3455,17 +3416,17 @@ public unsafe class CustomCharacterModule : FhModule {
                 pbVar1 = pbVar1 + 0x28;
             } while (iVar3 != 0);
         }
-        FUN_00a5b400.fnptr!((int)chr_id, node_idx, item_id, 3);
+        FUN_0065b400.fnptr!((int)chr_id, node_idx, item_id, 3);
         lpamng->__0x116A0 = 0;
         lpamng->__0x1169C = 0;
         lpamng->__0x115A8 = (int)FhUtil.ptr_at<nint>(0x6452D0); // abmCalcSpheUseCurMove
         lpamng->__0x115AC = (int)FhUtil.ptr_at<nint>(0x645500); // FUN_00a45500
-        psVar2 = FUN_00a56a40.fnptr!(&local_8, &custom_party_infos[lpamng->current_chr_id].pos,
+        psVar2 = FUN_00656a40.fnptr!(&local_8, &custom_party_infos[lpamng->current_chr_id].pos,
                               //abmCalcChrMoveCurMoveCheck);
                               FhUtil.ptr_at<nint>(0x645000));
         node_to_select = (uint)(((int)psVar2 + (-0x808 - (int)lpamng)) / 0x28);
         if ((psVar2 != (SphereGridNode*)0x0) && (node_to_select != lpamng->selected_node_idx)) {
-            FUN_00a48d70.fnptr!((int)node_to_select, 0.5f);
+            FUN_00648d70.fnptr!((int)node_to_select, 0.5f);
             if (lpamng->__0x115B0 == 0) {
                 lpamng->__0x115B0 = lpamng->__0x115A8;
                 lpamng->__0x115A8 = (int)FhUtil.ptr_at<nint>(0x659E80); // FUN_00a59e80;
@@ -3542,36 +3503,36 @@ public unsafe class CustomCharacterModule : FhModule {
         int local_8;
 
         uVar5 = param_1 & 0xffff0000;
-        *p_DAT_01841bf0 = 0;
-        *p_DAT_01841bf4 = 0;
+        *p_DAT_01441c30 = 0;
+        *p_DAT_01441c34 = 0;
         pbVar2 = MsGetSaveInParty.fnptr!(&local_8);
         uVar7 = 0;
         uVar6 = 0;
         iVar4 = 0;
         local_c = 0;
-        *p_DAT_01841bec = 0;
+        *p_DAT_01441c2c = 0;
         if (0 < local_8) {
             uVar7 = 0;
             do {
                 bVar1 = pbVar2[iVar4];
                 if (((bVar1 != 0xff)) && (uVar5 != 0x10000)) {
-                    p_DAT_01841bd4_PauseMenuPlayerList[uVar6] = bVar1;
+                    p_DAT_01441c14_PauseMenuPlayerList[uVar6] = bVar1;
                     uVar3 = (uint)(1 << (pbVar2[iVar4] & 0x1f));
                     uVar6 = uVar6 + 1;
                     uVar7 = uVar7 | uVar3;
-                    *p_DAT_01841bec = *p_DAT_01841bec | uVar3;
+                    *p_DAT_01441c2c = *p_DAT_01441c2c | uVar3;
                 }
                 iVar4 = iVar4 + 1;
             } while (iVar4 < local_8);
         }
-        *p_DAT_01841be4_PauseMenuFrontlineNum = uVar6;
+        *p_DAT_01441c24_PauseMenuFrontlineNum = uVar6;
         pbVar2 = MsGetSaveOutParty.fnptr!(&local_8);
         iVar4 = 0;
         if (0 < local_8) {
             do {
                 bVar1 = pbVar2[iVar4];
                 if (((bVar1 != 0xff)) && (uVar5 != 0x10000)) {
-                    p_DAT_01841bd4_PauseMenuPlayerList[uVar6] = bVar1;
+                    p_DAT_01441c14_PauseMenuPlayerList[uVar6] = bVar1;
                     uVar6 = uVar6 + 1;
                     uVar7 = uVar7 | (uint)(1 << (pbVar2[iVar4] & 0x1f));
                 }
@@ -3579,27 +3540,26 @@ public unsafe class CustomCharacterModule : FhModule {
             } while (iVar4 < local_8);
         }
         iVar4 = 0;
-        *p_UINT_01841bdc_PlayerListMax = uVar6;
-        *p_DAT_01841bf0 = uVar7;
+        *p_UINT_01441c1c_PlayerListMax = uVar6;
+        *p_DAT_01441c30 = uVar7;
         do {
             idx = (byte)iVar4;
-            bVar1 = MsGetSavePlyJoined.fnptr!(idx);
             //if (bVar1 &&
             //   ((uVar5 != 0x10000 &&
             //    (uVar3 = 1 << (idx & 0x1f), local_c = local_c | uVar3, (uVar7 & uVar3) == 0)))) {
-            if (bVar1 == 1 && (uVar5 != 0x10000)) {
+            if (FhXCall.MsGetSavePlyJoined.fnptr!(idx) && (uVar5 != 0x10000)) {
                 uVar3 = (uint)(1 << (idx & 0x1f));
                 local_c = local_c | uVar3;
                 if ((uVar7 & uVar3) == 0) {
-                    p_DAT_01841bd4_PauseMenuPlayerList[uVar6] = idx;
+                    p_DAT_01441c14_PauseMenuPlayerList[uVar6] = idx;
                     uVar6 = uVar6 + 1;
                 }
             }
             iVar4 = iVar4 + 1;
         } while (iVar4 < 8);
-        *p_UINT_01841be0_PlayerListMax = uVar6;
-        *p_DAT_01841bf4 = local_c | uVar7;
-        *p_DAT_01841be8_PauseMenuSelIdx = 0;
+        *p_UINT_01441c20_PlayerListMax = uVar6;
+        *p_DAT_01441c34 = local_c | uVar7;
+        *p_DAT_01441c28_PauseMenuSelIdx = 0;
         return;
     }
     void h_FUN_008bddc0() {
@@ -3612,12 +3572,12 @@ public unsafe class CustomCharacterModule : FhModule {
         int local_8;
 
         iVar3 = 0;
-        *p_DAT_01869ed9 = 0;
+        *p_DAT_01469f19 = 0;
         ply_chr_id = 0;
         do {
             if (Globals.Battle.reward_data->in_battle[ply_chr_id] != false) {
                 if (Globals.Battle.reward_data->get_ap_temp[ply_chr_id] != 0) {
-                    *p_DAT_01869ed9 = 1;
+                    *p_DAT_01469f19 = 1;
                 }
                 iVar3 = iVar3 + 1;
             }
@@ -3626,17 +3586,17 @@ public unsafe class CustomCharacterModule : FhModule {
         iVar2 = 0;
         local_8 = 0;
         uVar4 = 0;
-        puVar5 = p_DAT_01869ee4;
+        puVar5 = p_DAT_01469f24;
         do {
             if (Globals.Battle.reward_data->in_battle[(int)uVar4] != false) {
                 *(short*)((int)puVar5 + -2) = (short)((short)iVar2 * 6);
                 *(short*)puVar5 = 0;
                 *(short*)((int)puVar5 + 2) = (short)uVar4;
-                uVar1 = FUN_008b9e60.fnptr!(uVar4);
+                uVar1 = FUN_004b9eb0.fnptr!(uVar4);
                 *(byte*)(puVar5 + 1) = uVar1;
-                uVar1 = (byte)FUN_008b9e70.fnptr!(uVar4);
+                uVar1 = (byte)FUN_004b9ec0.fnptr!(uVar4);
                 *(byte*)((int)puVar5 + 5) = uVar1;
-                ply_chr_id = FUN_008ba330.fnptr!(local_8, iVar3);
+                ply_chr_id = FUN_004ba370.fnptr!(local_8, iVar3);
                 *(short*)(puVar5 + -1) = (short)ply_chr_id;
                 iVar2 = local_8 + 1;
                 *(byte*)((int)puVar5 + 6) = 0;
@@ -3645,8 +3605,8 @@ public unsafe class CustomCharacterModule : FhModule {
             }
             uVar4 = uVar4 + 1;
         } while ((int)uVar4 < 8);
-        *p_DAT_01869ed8 = (byte)iVar3;
-        FUN_008ba3c0.fnptr!();
+        *p_DAT_01869F18 = (byte)iVar3;
+        FUN_004ba400.fnptr!();
         return;
     }
 
@@ -3696,7 +3656,7 @@ public unsafe class CustomCharacterModule : FhModule {
         local_150.__0xA = 0;
         local_150.__0x3C = 0;
         local_150.__0x38 = 0;
-        local_150.__0x4 = (int)p_DAT_01740830_sphere_grid_layout_dat;
+        local_150.__0x4 = (int)p_DAT_01340870_sphere_grid_layout_dat;
         local_150.__0xC = 0;
         local_150.__0x10 = 0;
         local_150.__0x14 = 0;
@@ -3727,11 +3687,11 @@ public unsafe class CustomCharacterModule : FhModule {
                     iVar7 = 0;
                     do {
                         plVar5 = lpamng;
-                        FUN_00a5ad30.fnptr!(&local_98, node, 1.0f);
+                        FUN_0065ad30.fnptr!(&local_98, node, 1.0f);
                         cdc_FFXVu0MulMatrix.fnptr!(&local_d8, &plVar5->__0x113E0, &local_98);
                         local_58.M43 = -1.0f;
                         local_150.rgba = 0;
-                        op1_md_draw_eiabm_sphe.fnptr!(DAT_023057ec, &local_150, (lpamng->node_count - iVar6) + -1, iVar7);
+                        op1_md_draw_eiabm_sphe.fnptr!(DAT_01F057ec, &local_150, (lpamng->node_count - iVar6) + -1, iVar7);
                         iVar7 = iVar7 + 1;
                     } while (iVar7 < num_characters);
                 }
@@ -3743,11 +3703,11 @@ public unsafe class CustomCharacterModule : FhModule {
                         pSVar4 = &lpamng->node_type_infos[0];
                         do {
                             plVar5 = lpamng;
-                            FUN_00a5ad30.fnptr!(&local_98, node, pSVar4[uVar1].__0x10);
+                            FUN_0065ad30.fnptr!(&local_98, node, pSVar4[uVar1].__0x10);
                             cdc_FFXVu0MulMatrix.fnptr!(&local_d8, &plVar5->__0x113E0, &local_98);
                             local_58.M43 = -1.0f;
                             local_150.rgba = 0;
-                            op1_md_draw_eiabm_sphe.fnptr!(DAT_023057ec, &local_150, (lpamng->node_count - iVar6) + -1, iVar7);
+                            op1_md_draw_eiabm_sphe.fnptr!(DAT_01F057ec, &local_150, (lpamng->node_count - iVar6) + -1, iVar7);
                             iVar7 = iVar7 + 1;
                         } while (iVar7 < num_characters);
                     }
@@ -3794,11 +3754,11 @@ public unsafe class CustomCharacterModule : FhModule {
                             }
                             local_58.M43 = (float)fVar9;
                             //_logger.Debug($"node type:{uVar1}, size:{plVar5->node_type_infos[uVar1].width} x {plVar5->node_type_infos[uVar1].height}, 0x10:{plVar5->node_type_infos[uVar1].__0x10}");
-                            FUN_00a5ad30.fnptr!(&local_98, node, plVar5->node_type_infos[uVar1].__0x10);
+                            FUN_0065ad30.fnptr!(&local_98, node, plVar5->node_type_infos[uVar1].__0x10);
                             //_logger.Debug($"Pos: {node->pos} + {local_164->xy}");
-                            FUN_00a5a360.fnptr!(&local_98, node, local_164, 0.0008f);
+                            FUN_0065a360.fnptr!(&local_98, node, local_164, 0.0008f);
                             cdc_FFXVu0MulMatrix.fnptr!(&local_d8, &plVar8->__0x113E0, &local_98);
-                            op1_md_draw_eiabm_sphe.fnptr!(DAT_023057ec, &local_150, (lpamng->node_count - iVar6) + -1, chr_id);
+                            op1_md_draw_eiabm_sphe.fnptr!(DAT_01F057ec, &local_150, (lpamng->node_count - iVar6) + -1, chr_id);
                             chr_id = chr_id + 1;
                             activated_by = (byte)(activated_by >> 1);
                             if (num_characters-1 < chr_id) break;
@@ -3843,7 +3803,7 @@ public unsafe class CustomCharacterModule : FhModule {
         fixed (int* local_148 = _local_148) {
 
             if (-1 < (int)lpamng->should_update_node) {
-                FUN_00a50ed0.fnptr!((int)lpamng->should_update_node);
+                FUN_00650ed0.fnptr!((int)lpamng->should_update_node);
             }
             if (lpamng->__0x116B0 == -2) {
                 iVar11 = 2;
@@ -3852,7 +3812,7 @@ public unsafe class CustomCharacterModule : FhModule {
                 if (lpamng->__0x116B0 != 2) goto LAB_00a534fb;
                 iVar11 = 3;
             }
-            FUN_00639280.fnptr!(iVar11);
+            FUN_002390D0.fnptr!(iVar11);
         LAB_00a534fb:
             if (lpamng->__0x116B0 < 1) {
                 return;
@@ -3893,7 +3853,7 @@ public unsafe class CustomCharacterModule : FhModule {
             local_1c0.__0xA = 0;
             local_1c0.__0x3C = 0;
             local_1c0.__0x38 = 0;
-            local_1c0.__0x4 = (int)p_DAT_01740830_sphere_grid_layout_dat;
+            local_1c0.__0x4 = (int)p_DAT_01340870_sphere_grid_layout_dat;
             local_1c0.__0xC = 0;
             local_1c0.__0x10 = 0;
             local_1c0.__0x14 = 0;
@@ -3930,10 +3890,10 @@ public unsafe class CustomCharacterModule : FhModule {
                                 //local_1c0.rgba = CONCAT13(0x80, (int3) * piVar7);
                                 local_1c0.rgba = (uint)((0x80 << 0x18) | (*piVar7 & 0x00FFFFFF));
                                 local_1c0.__0x0 = 0x2c;
-                                FUN_00a5ad30.fnptr!(&local_98, node, plVar3->node_type_infos[uVar1].__0x10);
-                                FUN_00a5a360.fnptr!(&local_98, node, pVVar10, 0.0008f);
+                                FUN_0065ad30.fnptr!(&local_98, node, plVar3->node_type_infos[uVar1].__0x10);
+                                FUN_0065a360.fnptr!(&local_98, node, pVVar10, 0.0008f);
                                 cdc_FFXVu0MulMatrix.fnptr!(&local_d8, &lpamng->__0x113E0, &local_98);
-                                op1_md_draw_eiabm_sphe.fnptr!(DAT_023057ec, &local_1c0, (lpamng->node_count - iVar11) + -1, iVar5);
+                                op1_md_draw_eiabm_sphe.fnptr!(DAT_01F057ec, &local_1c0, (lpamng->node_count - iVar11) + -1, iVar5);
                             }
                             piVar7 = piVar7 + 4;
                             iVar5 = iVar5 + -1;
@@ -4010,7 +3970,7 @@ public unsafe class CustomCharacterModule : FhModule {
         local_150.__0xA = 0;
         local_150.__0x3C = 0;
         local_150.__0x38 = 0;
-        local_150.__0x4 = (int)p_DAT_01740830_sphere_grid_layout_dat;
+        local_150.__0x4 = (int)p_DAT_01340870_sphere_grid_layout_dat;
         local_150.__0xC = 0;
         local_150.__0x10 = 0;
         local_150.__0x14 = 0;
@@ -4024,11 +3984,11 @@ public unsafe class CustomCharacterModule : FhModule {
             iVar6 = -1;
             do {
                 pLVar5 = lpamng;
-                FUN_00a5ad30.fnptr!(&local_98, pSVar1, lpamng->node_type_infos[(int)SVar2].__0x10);
+                FUN_0065ad30.fnptr!(&local_98, pSVar1, lpamng->node_type_infos[(int)SVar2].__0x10);
                 cdc_FFXVu0MulMatrix.fnptr!(&local_d8, &pLVar5->__0x113E0, &local_98);
                 local_58.M43 = -1.0f;
                 local_150.rgba = 0;
-                op1_md_draw_eiabm_sphe.fnptr!(DAT_023057ec, &local_150, param_1, iVar6);
+                op1_md_draw_eiabm_sphe.fnptr!(DAT_01F057ec, &local_150, param_1, iVar6);
                 iVar6 = iVar6 + -1;
             } while (-(num_characters+1) < iVar6);
         }
@@ -4073,10 +4033,10 @@ public unsafe class CustomCharacterModule : FhModule {
                     fVar8 = fVar9;
                 }
                 local_58.M43 = (float)fVar8;
-                FUN_00a5ad30.fnptr!(&local_98, pSVar1, pLVar5->node_type_infos[(int)SVar2].__0x10);
-                FUN_00a5a360.fnptr!(&local_98, pSVar1, local_164, 0.0008f);
+                FUN_0065ad30.fnptr!(&local_98, pSVar1, pLVar5->node_type_infos[(int)SVar2].__0x10);
+                FUN_0065a360.fnptr!(&local_98, pSVar1, local_164, 0.0008f);
                 cdc_FFXVu0MulMatrix.fnptr!(&local_d8, &pLVar7->__0x113E0, &local_98);
-                op1_md_draw_eiabm_sphe.fnptr!(DAT_023057ec, &local_150, param_1, local_15c);
+                op1_md_draw_eiabm_sphe.fnptr!(DAT_01F057ec, &local_150, param_1, local_15c);
                 local_15c = local_15c + -1;
                 local_16c = local_16c + 1;
                 local_151 = (byte)(local_151 >> 1);
@@ -4244,7 +4204,7 @@ public unsafe class CustomCharacterModule : FhModule {
             NativeMemory.Fill(puVar3->field97_0x94->field7_0x1c, field7_0x1c_size, 0);
             NativeMemory.Fill(puVar3->field97_0x94->field8_0x20, 0x100, 0);
             if (*(int*)abmapManager == 0) {
-                byte* pcVar9 = (byte*)FhUtil.get_at<nint>(0x833978);
+                byte* pcVar9 = (byte*)FhUtil.get_at<nint>(0x833980);
                 int i = 0;
                 do {
                     i++;
@@ -4252,9 +4212,9 @@ public unsafe class CustomCharacterModule : FhModule {
 
                 NativeMemory.Copy(pcVar9, puVar3->field97_0x94->field8_0x20, (nuint)i);
 
-                FhLangId iVar11 = TOGetFFXLang.fnptr!();
+                FhLangId iVar11 = FhXCall.TOGetFFXLang.fnptr!();
                 if (iVar11 == FhLangId.Debug) {
-                    pcVar9 = (byte*)FhUtil.get_at<nint>(0x8339E0);
+                    pcVar9 = (byte*)FhUtil.get_at<nint>(0x8339E8);
                     int j = 0;
                     do {
                         j++;
@@ -4263,7 +4223,7 @@ public unsafe class CustomCharacterModule : FhModule {
                     NativeMemory.Copy(pcVar9, puVar3->field97_0x94->field8_0x20, (nuint)j);
                 }
             } else if (*(int*)abmapManager == 2) {
-                byte* pcVar9 = (byte*)FhUtil.get_at<nint>(0x8339B4);
+                byte* pcVar9 = (byte*)FhUtil.get_at<nint>(0x8339BC);
                 int i = 0;
                 do {
                     i++;
@@ -4271,9 +4231,9 @@ public unsafe class CustomCharacterModule : FhModule {
 
                 NativeMemory.Copy(pcVar9, puVar3->field97_0x94->field8_0x20, (nuint)i);
 
-                FhLangId iVar11 = TOGetFFXLang.fnptr!();
+                FhLangId iVar11 = FhXCall.TOGetFFXLang.fnptr!();
                 if (iVar11 == FhLangId.Debug) {
-                    pcVar9 = (byte*)FhUtil.get_at<nint>(0x833A1C);
+                    pcVar9 = (byte*)FhUtil.get_at<nint>(0x833A24);
                     int j = 0;
                     do {
                         j++;
@@ -4652,7 +4612,7 @@ public unsafe class CustomCharacterModule : FhModule {
                     pfVar3[0x55] = pfVar3[0x5d];
                     pfVar3[0x56] = pfVar3[0x5e];
                     pfVar3[0x57] = pfVar3[0x5f];
-                    FUN_00a51720.fnptr!(pfVar3, (float*)*(SphereGridLinkPoint**)(pbVar5 + 3), (int)*pbVar5);
+                    FUN_00651720.fnptr!(pfVar3, (float*)*(SphereGridLinkPoint**)(pbVar5 + 3), (int)*pbVar5);
                 }
                 else if ((SphereGridLink*)(pbVar5 + -0xd) == lpamng->next_move_link) {
                     switch (lpamng->current_chr_id) {
@@ -4684,7 +4644,7 @@ public unsafe class CustomCharacterModule : FhModule {
                             pfVar3[0x50] = 0x01000100; // Tidus color
                             break;
                     }
-                    FUN_00a521a0.fnptr!(pfVar3, (float*)*(SphereGridLinkPoint**)(pbVar5 + 3), (int)*pbVar5);
+                    FUN_006521a0.fnptr!(pfVar3, (float*)*(SphereGridLinkPoint**)(pbVar5 + 3), (int)*pbVar5);
                 }
                 else {
                     switch (lpamng->current_chr_id) {
@@ -4716,7 +4676,7 @@ public unsafe class CustomCharacterModule : FhModule {
                             pfVar3[0x50] = 0x100; // Tidus color
                             break;
                     }
-                    FUN_00a521a0.fnptr!(pfVar3, (float*)*(SphereGridLinkPoint**)(pbVar5 + 3), (int)*pbVar5);
+                    FUN_006521a0.fnptr!(pfVar3, (float*)*(SphereGridLinkPoint**)(pbVar5 + 3), (int)*pbVar5);
                 }
                 pbVar5 = pbVar5 + 0x14;
             } while (iVar4 != 0);
@@ -4727,7 +4687,7 @@ public unsafe class CustomCharacterModule : FhModule {
 
     // Initializes Sphere Grid
     void h_FUN_00a53de0(SaveSphereGrid* save_sphere_grid) {
-        FUN_00a53de0.chain_from(h_FUN_00a53de0).fnptr!(save_sphere_grid);
+        FUN_00653de0.chain_from(h_FUN_00a53de0).fnptr!(save_sphere_grid);
         custom_party_selected_node_idx = new short[num_characters - 7];
         for (int chr_id = 0; chr_id < num_characters-7; chr_id++) {
             uint grid_type = Globals.save_data->config_grid_type switch {
@@ -4881,7 +4841,7 @@ public unsafe class CustomCharacterModule : FhModule {
     }
 
     [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 0x48)]
-    public struct FUN_007f4900_param_2 {
+    public struct FUN_003f49e0_param_2 {
 
         [FieldOffset(0x02)] public ushort __0x02;
         [FieldOffset(0x04)] public byte r;
@@ -4904,7 +4864,7 @@ public unsafe class CustomCharacterModule : FhModule {
         int iVar5;
         uint uVar6;
         SphereGridNode* pSVar7;
-        FUN_007f4900_param_2 local_110;
+        FUN_003f49e0_param_2 local_110;
         Matrix4x4 local_d8;
         Matrix4x4 local_98;
         Matrix4x4 local_58;
@@ -4912,16 +4872,16 @@ public unsafe class CustomCharacterModule : FhModule {
         iVar3 = lpamng->should_update_node;
         if (iVar3 != -2) {
             if (iVar3 < 0) {
-                FUN_00639280.fnptr!(1);
-                FUN_00a51340.fnptr!();
+                FUN_002390D0.fnptr!(1);
+                FUN_00651340.fnptr!();
             } else {
-                FUN_00a51560.fnptr!(iVar3);
+                FUN_00651560.fnptr!(iVar3);
             }
         }
         pLVar2 = lpamng;
         if (lpamng->__0x115C3 != 1) {
             if (lpamng->__0x115C3 == 0) {
-                FUN_00a4fe40.fnptr!();
+                FUN_0064fe40.fnptr!();
                 lpamng->__0x115C3 = 2;
             }
             return;
@@ -4961,7 +4921,7 @@ public unsafe class CustomCharacterModule : FhModule {
         while (iVar3 != 0) {
             iVar3 = iVar3 + -1;
             if (pSVar7->node_type != NodeType.NULL) {
-                FUN_00a5ad30.fnptr!(&local_d8, pSVar7, 1.0f);
+                FUN_0065ad30.fnptr!(&local_d8, pSVar7, 1.0f);
                 cdc_FFXVu0MulMatrix.fnptr!(&local_98, &lpamng->__0x113E0, &local_d8);
                 //uVar6 = -(uint)((pSVar7->properties & SphereGridNodeProperties.HIGHLIGHTED) != SphereGridNodeProperties.NONE) &
                 //        ((((int)(((int)uVar1 >> 0x18 & 0xffU) * uVar4) >> 7) * 0x100 +
@@ -4981,7 +4941,7 @@ public unsafe class CustomCharacterModule : FhModule {
                 local_110.b = (byte)(uVar6 >> 0x10);
                 local_110.b = (byte)(local_110.b >> 1);
                 local_110.a = (byte)(uVar6 >> 0x19);
-                FUN_007f4900.fnptr!(*(int*)((int)&pLVar2->node_type_infos[(int)pSVar7->node_type] + 8), &local_110,
+                FUN_003f49e0.fnptr!(*(int*)((int)&pLVar2->node_type_infos[(int)pSVar7->node_type] + 8), &local_110,
                              iVar3 - lpamng->node_count, lpamng->__0x116A4);
             }
             pSVar7 = pSVar7 + 1;
@@ -4998,15 +4958,15 @@ public unsafe class CustomCharacterModule : FhModule {
             float local_b0;
             float local_ac;
             float local_a4;
-            char* texture_name;
+            byte* texture_name;
             graphicDrawUIAbmapElement_param1 local_a0 = new();
 
             // Seymour
             chr_id = 8; // Skip second Rikku face
 
             if (param_9 == 6) {
-                texture_name = TOGetShapTextureName.fnptr!(0x2ed0);
-                TOGetImageWH.fnptr!(0x2ed0, &local_b4, &local_b8);
+                texture_name = FhXCall.TOGetShapTextureName.fnptr!(0x2ed0);
+                FhXCall.TOGetImageWH.fnptr!(0x2ed0, &local_b4, &local_b8);
 
                 local_a0.floats0[0] = (float)param_3;
                 local_a0.floats0[1] = (float)param_4;
@@ -5036,8 +4996,8 @@ public unsafe class CustomCharacterModule : FhModule {
                 graphicDrawUIElement.fnptr!(&local_a0, texture_name, 1, 0, 6);
                 return param_1;
             }
-            texture_name = TOGetShapTextureName.fnptr!(0x2ed0);
-            TOGetImageWH.fnptr!(0x2ed0, &local_b4, &local_b8);
+            texture_name = FhXCall.TOGetShapTextureName.fnptr!(0x2ed0);
+            FhXCall.TOGetImageWH.fnptr!(0x2ed0, &local_b4, &local_b8);
             local_a0.floats0[0] = (float)param_3;
             local_a0.floats0[1] = (float)param_4;
             //uVar2 = chr_id & 0x80000003;
@@ -5109,28 +5069,28 @@ public unsafe class CustomCharacterModule : FhModule {
                 }
                 break;
             case 8:
-                iVar3 = FUN_00a457d0.fnptr!(chr_id, node_idx);
+                iVar3 = FUN_006457d0.fnptr!(chr_id, node_idx);
                 if (iVar3 != 0) {
                     return false;
                 }
                 bVar4 = param_3->icon_id == 0x0f;
                 goto LAB_00a5d1cc;
             case 9:
-                iVar3 = FUN_00a457d0.fnptr!(chr_id, node_idx);
+                iVar3 = FUN_006457d0.fnptr!(chr_id, node_idx);
                 if (iVar3 != 0) {
                     return false;
                 }
                 bVar4 = param_3->icon_id == 0x0e;
                 goto LAB_00a5d1cc;
             case 10:
-                iVar3 = FUN_00a457d0.fnptr!(chr_id, node_idx);
+                iVar3 = FUN_006457d0.fnptr!(chr_id, node_idx);
                 if (iVar3 != 0) {
                     return false;
                 }
                 bVar4 = param_3->icon_id == 0x0c;
                 goto LAB_00a5d1cc;
             case 0xb:
-                iVar3 = FUN_00a457d0.fnptr!(chr_id, node_idx);
+                iVar3 = FUN_006457d0.fnptr!(chr_id, node_idx);
                 if (iVar3 != 0) {
                     return false;
                 }
@@ -5138,7 +5098,7 @@ public unsafe class CustomCharacterModule : FhModule {
             LAB_00a5d1cc:
                 if (bVar4) {
                 LAB_00a5d1d4:
-                    iVar3 = FUN_00a45800.fnptr!(chr_id, node_idx) ? 1 : 0;
+                    iVar3 = FUN_00645800.fnptr!(chr_id, node_idx) ? 1 : 0;
                 LAB_00a5d1d9:
                     if (iVar3 != 0) {
                         return true;
@@ -5146,42 +5106,42 @@ public unsafe class CustomCharacterModule : FhModule {
                 }
                 break;
             case 0xc:
-                iVar3 = FUN_00a45870.fnptr!(chr_id);
+                iVar3 = FUN_00645870.fnptr!(chr_id);
                 if (iVar3 == node_idx) {
                     return false;
                 }
-                iVar3 = FUN_00a457d0.fnptr!(chr_id, node_idx);
+                iVar3 = FUN_006457d0.fnptr!(chr_id, node_idx);
                 //goto LAB_00a5d1d9;
                 if (iVar3 != 0) {
                     return true;
                 }
                 break;
             case 0xd:
-                iVar3 = FUN_00a45870.fnptr!(chr_id);
+                iVar3 = FUN_00645870.fnptr!(chr_id);
                 if (iVar3 == node_idx) {
                     return false;
                 }
                 //goto LAB_00a5d1d4;
-                iVar3 = FUN_00a45800.fnptr!(chr_id, node_idx) ? 1 : 0;
+                iVar3 = FUN_00645800.fnptr!(chr_id, node_idx) ? 1 : 0;
                 if (iVar3 != 0) {
                     return true;
                 }
                 break;
             case 0xe:
-                iVar3 = FUN_00a45870.fnptr!(chr_id);
+                iVar3 = FUN_00645870.fnptr!(chr_id);
                 if (iVar3 == node_idx) {
                     return false;
                 }
                 iVar3 = 0;
 
                 for (byte i = 0; i < num_characters; i++) {
-                    if (chr_id != i && MsGetSavePlyJoined.fnptr!(i) != 0 && FUN_00a45870.fnptr!(i) == node_idx) {
+                    if (chr_id != i && FhXCall.MsGetSavePlyJoined.fnptr!(i) && FUN_00645870.fnptr!(i) == node_idx) {
                         return true;
                     }
                 }
                 return false;
             case 0xf:
-                iVar3 = FUN_00a45870.fnptr!(chr_id);
+                iVar3 = FUN_00645870.fnptr!(chr_id);
                 if (iVar3 == node_idx) {
                     return false;
                 }
@@ -5199,10 +5159,10 @@ public unsafe class CustomCharacterModule : FhModule {
                 break;
             case 0x18:
                 /* Attribute Sphere */
-                iVar3 = FUN_00a457d0.fnptr!(chr_id, node_idx);
+                iVar3 = FUN_006457d0.fnptr!(chr_id, node_idx);
                 bVar1 = (byte)param_3->icon_id;
                 if ((((iVar3 == 0) && (1 < bVar1)) && (bVar1 < 0xc)) &&
-                   (FUN_00a45800.fnptr!(chr_id, node_idx))) {
+                   (FUN_00645800.fnptr!(chr_id, node_idx))) {
                     return true;
                 }
                 break;
@@ -5214,12 +5174,12 @@ public unsafe class CustomCharacterModule : FhModule {
         byte activated_by = lpamng->nodes[nodes_idx].activated_by;
 
         for (byte i = 0; i < num_characters; i++) {
-            if (i != chr_id && MsGetSavePlyJoined.fnptr!(i) == 1 && (activated_by & (1 << i)) != 0) {
+            if (i != chr_id && FhXCall.MsGetSavePlyJoined.fnptr!(i) && (activated_by & (1 << i)) != 0) {
                 return true;
             }
         }
         return false;
     }
-    
+
     // TODO: Hook abmap_para_get_special to clear node activation for custom character as well
 }
