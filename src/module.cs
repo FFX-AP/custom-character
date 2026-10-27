@@ -512,6 +512,31 @@ public unsafe class CustomCharacterModule : FhModule {
     private FhCallHandle<d_FUN_00645870> FUN_00645870
         => new( new FhCallLocation("FFX.exe", 0x645870) );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void d_abmap_cheng_panel(NodeType node_type, int node_idx);
+    private FhCallHandle<d_abmap_cheng_panel> abmap_cheng_panel
+        => new(new FhCallLocation("FFX.exe", 0x648740));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void d_abmap_lost_panel(int chr_id, int node_idx);
+    private FhCallHandle<d_abmap_lost_panel> abmap_lost_panel
+        => new(new FhCallLocation("FFX.exe", 0x6458c0));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void d_abmap_snd_chg_panel0();
+    private FhCallHandle<d_abmap_snd_chg_panel0> abmap_snd_chg_panel0
+        => new(new FhCallLocation("FFX.exe", 0x645910));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void d_abmap_snd_chg_panel1();
+    private FhCallHandle<d_abmap_snd_chg_panel1> abmap_snd_chg_panel1
+        => new(new FhCallLocation("FFX.exe", 0x645920));
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void d_abmap_set_chr_pos(int chr_id, int node_idx);
+    private FhCallHandle<d_abmap_set_chr_pos> abmap_set_chr_pos
+        => new(new FhCallLocation("FFX.exe", 0x6458f0));
+
 
     // Hooks
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -715,6 +740,11 @@ public unsafe class CustomCharacterModule : FhModule {
     public FhCallHandle<d_FUN_00645800> FUN_00645800
         => new( new FhCallLocation("FFX.exe", 0x645800) );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int d_abmap_para_get_special(uint special_role, int node_idx, int chr_id);
+    public FhCallHandle<d_abmap_para_get_special> abmap_para_get_special
+        => new(new FhCallLocation("FFX.exe", 0x65cf30));
+
     private static uint num_characters = 8;
     private SphereGridChrInfo* custom_party_infos;
 
@@ -822,7 +852,8 @@ public unsafe class CustomCharacterModule : FhModule {
                FUN_008efd90.hook(this, h_FUN_008efd90) &&
                eiAbmParaGet.hook(this, h_eiAbmParaGet) &&
                FUN_0065d120.hook(this, h_FUN_00a5d120) &&
-               FUN_00645800.hook(this, h_FUN_00a45800);
+               FUN_00645800.hook(this, h_FUN_00a45800) &&
+               abmap_para_get_special.hook(this, h_abmap_para_get_special);
     }
 
 
@@ -5181,5 +5212,83 @@ public unsafe class CustomCharacterModule : FhModule {
         return false;
     }
 
-    // TODO: Hook abmap_para_get_special to clear node activation for custom character as well
+    // Hook abmap_para_get_special to clear node activation for custom character as well
+    int h_abmap_para_get_special(uint special_role, int node_idx, int chr_id) {
+        int iVar1;
+
+        switch (special_role) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                abmap_cheng_panel.fnptr!(NodeType.EMPTY_NODE, node_idx);
+                abmap_snd_chg_panel1.fnptr!();
+                return 1;
+            case 5:
+                abmap_cheng_panel.fnptr!(NodeType.LUCK_4, node_idx);
+                abmap_snd_chg_panel0.fnptr!();
+                return 1;
+            case 6:
+                abmap_cheng_panel.fnptr!(NodeType.HP_300, node_idx);
+                abmap_snd_chg_panel0.fnptr!();
+                return 1;
+            case 7:
+                abmap_cheng_panel.fnptr!(NodeType.MP_40, node_idx);
+                abmap_snd_chg_panel0.fnptr!();
+                return 1;
+            case 8:
+            case 9:
+            case 10:
+            case 0xb:
+            case 0x18:
+                FhXCall.abmap_get_panel.fnptr!(chr_id, node_idx);
+                return 1;
+            case 0xc:
+            case 0xd:
+            case 0xe:
+            case 0xf:
+                abmap_set_chr_pos.fnptr!(chr_id, node_idx);
+                return 1;
+            case 0x10:
+                abmap_cheng_panel.fnptr!(NodeType.STRENGTH_4, node_idx);
+                abmap_snd_chg_panel0.fnptr!();
+                return 1;
+            case 0x11:
+                abmap_cheng_panel.fnptr!(NodeType.DEFENSE_4, node_idx);
+                abmap_snd_chg_panel0.fnptr!();
+                return 1;
+            case 0x12:
+                abmap_cheng_panel.fnptr!(NodeType.MAGIC_4, node_idx);
+                abmap_snd_chg_panel0.fnptr!();
+                return 1;
+            case 0x13:
+                abmap_cheng_panel.fnptr!(NodeType.MAGIC_DEFENSE_4, node_idx);
+                abmap_snd_chg_panel0.fnptr!();
+                return 1;
+            case 0x14:
+                abmap_cheng_panel.fnptr!(NodeType.AGILITY_4, node_idx);
+                abmap_snd_chg_panel0.fnptr!();
+                return 1;
+            case 0x15:
+                abmap_cheng_panel.fnptr!(NodeType.EVASION_4, node_idx);
+                abmap_snd_chg_panel0.fnptr!();
+                return 1;
+            case 0x16:
+                abmap_cheng_panel.fnptr!(NodeType.ACCURACY_4, node_idx);
+                abmap_snd_chg_panel0.fnptr!();
+                return 1;
+            case 0x17:
+                abmap_cheng_panel.fnptr!(NodeType.EMPTY_NODE, node_idx);
+                iVar1 = 0;
+                break;
+            default:
+                return 0;
+        }
+        do {
+            abmap_lost_panel.fnptr!(iVar1, node_idx);
+            iVar1 = iVar1 + 1;
+        } while (iVar1 < num_characters);
+        abmap_snd_chg_panel1.fnptr!();
+        return 1;
+    }
 }
